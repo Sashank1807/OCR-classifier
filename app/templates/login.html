@@ -1,0 +1,202 @@
+{#
+  Sign-in, built to the reference design.
+
+  A split card: an inset blue panel on the left carrying the product, a roomy
+  form on the right. The reference is a sign-UP screen, so the halves are
+  reversed here - the form is the sign-in, and the left panel states what the
+  system does rather than offering an account to create.
+
+  Standalone: main.css is not loaded, so there is no cascade to fight on a
+  page that renders before any session exists.
+#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in · {{ app_name }}</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ static_url('static/css/login.css') if static_url is defined else '/static/css/login.css' }}">
+</head>
+<body>
+
+<!-- Brand lockup, sitting on the page rather than in a bar -->
+<header class="brand">
+    <span class="brand__mark" aria-hidden="true">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2.6 21.4 12 12 21.4 2.6 12 12 2.6Z"
+                  fill="url(#mk)" stroke="rgba(255,255,255,.9)" stroke-width="1.1"
+                  stroke-linejoin="round"/>
+            <defs>
+                <linearGradient id="mk" x1="4" y1="4" x2="20" y2="20">
+                    <stop stop-color="#ffffff" stop-opacity=".96"/>
+                    <stop offset="1" stop-color="#cfe3fa" stop-opacity=".7"/>
+                </linearGradient>
+            </defs>
+        </svg>
+    </span>
+    <span class="brand__text">
+        <strong>{{ app_name }}</strong>
+        <em>Document Intelligence</em>
+    </span>
+</header>
+
+<main class="stage">
+    <div class="shell">
+
+        <!-- ===== Left: the product ==================================== -->
+        <aside class="panel">
+            <div class="panel__glow" aria-hidden="true"></div>
+            <div class="panel__sheen" aria-hidden="true"></div>
+            <!-- Motes drifting upward. Six is enough to read as movement and
+                 few enough that every one can own a compositor layer. -->
+            <div class="motes" aria-hidden="true">
+                <span style="--x: 12%; --d: 0s;    --s: .5"></span>
+                <span style="--x: 29%; --d: -7s;   --s: .8"></span>
+                <span style="--x: 47%; --d: -14s;  --s: .55"></span>
+                <span style="--x: 63%; --d: -3.5s; --s: .95"></span>
+                <span style="--x: 78%; --d: -10s;  --s: .6"></span>
+                <span style="--x: 90%; --d: -17s;  --s: .75"></span>
+            </div>
+
+            <div class="panel__center">
+                <div class="emblem" aria-hidden="true">
+                    <!-- Sonar: two rings expanding outward on a stagger. -->
+                    <span class="emblem__pulse"></span>
+                    <span class="emblem__pulse emblem__pulse--2"></span>
+
+                    <!-- Glass disc the cross sits on, for depth. -->
+                    <span class="emblem__disc"></span>
+
+                    <!-- A conic sweep, the way a scanner passes over a page. -->
+                    <span class="emblem__radar"></span>
+
+                    <span class="emblem__ring"></span>
+                    <span class="emblem__ring emblem__ring--2"></span>
+
+                    <!-- Satellites riding the ring paths. -->
+                    <span class="emblem__orbit"><i></i></span>
+                    <span class="emblem__orbit emblem__orbit--2"><i></i></span>
+                    <span class="emblem__orbit emblem__orbit--3"><i></i></span>
+
+                    <svg class="emblem__glyph" width="96" height="96" viewBox="0 0 86 86" fill="none">
+                        <defs>
+                            <linearGradient id="crossFill" x1="24" y1="20" x2="64" y2="68">
+                                <stop stop-color="#ffffff"/>
+                                <stop offset=".55" stop-color="#f2f8ff"/>
+                                <stop offset="1" stop-color="#cfe4fa"/>
+                            </linearGradient>
+                            <linearGradient id="crossEdge" x1="30" y1="18" x2="58" y2="70">
+                                <stop stop-color="#ffffff" stop-opacity=".95"/>
+                                <stop offset="1" stop-color="#ffffff" stop-opacity=".18"/>
+                            </linearGradient>
+                            <linearGradient id="shineBand" x1="0" y1="0" x2="1" y2="0">
+                                <stop stop-color="#fff" stop-opacity="0"/>
+                                <stop offset=".5" stop-color="#fff" stop-opacity=".85"/>
+                                <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+                            </linearGradient>
+                            <clipPath id="crossClip">
+                                <path d="M36 20h14a4 4 0 0 1 4 4v8h8a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4h-8v8a4 4 0 0 1-4 4H36a4 4 0 0 1-4-4v-8h-8a4 4 0 0 1-4-4V36a4 4 0 0 1 4-4h8v-8a4 4 0 0 1 4-4Z"/>
+                            </clipPath>
+                        </defs>
+
+                        <path d="M36 20h14a4 4 0 0 1 4 4v8h8a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4h-8v8a4 4 0 0 1-4 4H36a4 4 0 0 1-4-4v-8h-8a4 4 0 0 1-4-4V36a4 4 0 0 1 4-4h8v-8a4 4 0 0 1 4-4Z"
+                              fill="url(#crossFill)" stroke="url(#crossEdge)" stroke-width="1.2"/>
+
+                        <!-- The shine travels across the cross, clipped to it. -->
+                        <g clip-path="url(#crossClip)">
+                            <rect class="emblem__shine" x="-34" y="-10" width="26" height="106"
+                                  fill="url(#shineBand)" transform="rotate(18 43 43)"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <h2 class="panel__title">Documents, read and checked.</h2>
+                <p class="panel__lede">
+                    Aadhaar, PAN, prescriptions and resumes — extracted into
+                    structured fields, every value verified against the page
+                    it came from.
+                </p>
+
+                <span class="panel__status">
+                    <span class="panel__dot"></span> Local processing active
+                </span>
+            </div>
+
+            <ul class="chips">
+                <li style="--n: 0"><strong>Checksum</strong> verified</li>
+                <li style="--n: 1"><strong>On-premise</strong> only</li>
+                <li style="--n: 2"><strong>Signed</strong> media links</li>
+            </ul>
+        </aside>
+
+        <!-- ===== Right: the form ====================================== -->
+        <section class="form">
+            <p class="eyebrow"><span class="eyebrow__dash"></span> Welcome back</p>
+            <h1 class="form__title">Sign in</h1>
+            <p class="form__sub">Access the document viewer.</p>
+
+            {% if error %}
+            <div class="alert" role="alert">
+                <i class="fa-regular fa-circle-xmark"></i>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <form method="post" action="/login" autocomplete="on" novalidate>
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <div class="field">
+                    <i class="fa-regular fa-user field__icon" aria-hidden="true"></i>
+                    <input type="text" id="username" name="username"
+                           value="{{ username or '' }}" placeholder="Username"
+                           autocomplete="username" autocapitalize="none"
+                           spellcheck="false" autofocus>
+                </div>
+
+                <div class="field">
+                    <i class="fa-solid fa-lock field__icon" aria-hidden="true"></i>
+                    <input type="password" id="password" name="password"
+                           placeholder="Password" autocomplete="current-password" required>
+                    <button type="button" class="field__reveal" id="loginReveal"
+                            aria-label="Show password" aria-pressed="false">
+                        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <button type="submit" class="cta">
+                    <span>Sign in</span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </form>
+
+            <p class="form__note">
+                Analytics is restricted to the administrator account. Services
+                integrating with the API authenticate with an
+                <code>X-API-Key</code> header.
+            </p>
+        </section>
+
+    </div>
+</main>
+
+<script>
+  (function () {
+    var btn = document.getElementById('loginReveal');
+    var field = document.getElementById('password');
+    if (!btn || !field) return;
+    btn.addEventListener('click', function () {
+      var shown = field.type === 'text';
+      field.type = shown ? 'password' : 'text';
+      btn.setAttribute('aria-pressed', String(!shown));
+      btn.setAttribute('aria-label', shown ? 'Show password' : 'Hide password');
+      btn.querySelector('i').className = shown
+        ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+      field.focus();
+    });
+  })();
+</script>
+</body>
+</html>

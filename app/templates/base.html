@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ static_url('static/css/main.css') if static_url is defined else '/static/css/main.css' }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-body-tertiary">
+
+    <!-- Enterprise Navbar -->
+    <nav class="navbar navbar-expand-lg border-bottom bg-body sticky-top shadow-sm">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold text-primary" href="/">
+                <i class="bi bi-cpu-fill fs-4"></i>
+                <span>Document Intelligence AI</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-pills gap-1 ms-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link text-body-secondary {% if request.url.path == '/' %}active fw-medium{% endif %}" href="/">
+                            <i class="bi bi-grid-1x2 me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-body-secondary {% if request.url.path == '/upload' %}active fw-medium{% endif %}" href="/upload">
+                            <i class="bi bi-cloud-arrow-up me-1"></i> Upload
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-body-secondary {% if request.url.path == '/history' %}active fw-medium{% endif %}" href="/history">
+                            <i class="bi bi-clock-history me-1"></i> History
+                        </a>
+                    </li>
+                    {# Analytics aggregates across every department, so it is
+                       admin-only. Hidden rather than shown-and-refused: an
+                       offered link that 404s reads as a broken app. #}
+                    {% if is_admin(request) %}
+                        <li class="nav-item">
+                            <a class="nav-link text-body-secondary {% if request.url.path == '/analytics' %}active fw-medium{% endif %}" href="/analytics">
+                                <i class="bi bi-bar-chart-line me-1"></i> Analytics
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge text-bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 d-none d-md-inline-flex align-items-center gap-2">
+                        <span class="pulse-dot"></span> Qwen2.5-VL Active
+                    </span>
+                    <a href="/logout" class="btn btn-sm btn-outline-secondary rounded-pill d-flex align-items-center gap-1" title="Sign out">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="d-none d-lg-inline">Sign out</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container-fluid px-4 py-4 min-vh-100">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer border-top bg-body py-3 mt-auto text-center text-body-secondary text-sm">
+        <div class="container">
+            <p class="mb-0 small">Enterprise Document Intelligence Platform &copy; 2026 | Local Qwen2.5-VL-3B-Instruct Engine</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ static_url('static/js/main.js') if static_url is defined else '/static/js/main.js' }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

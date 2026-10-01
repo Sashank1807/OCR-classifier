@@ -1,0 +1,53 @@
+{
+    "document": "HETRODER.TXT",
+    "document_type": "SPREADSHEET",
+    "table_type": "PLAIN_TEXT_ERP",
+    "physical_line_count": 7,
+    "logical_row_count": 7,
+    "product_row_count": 6,
+    "subtotal_row_count": 0,
+    "total_row_count": 1,
+    "columns": [
+        {
+            "name": "Code",
+            "type": "text",
+            "x_order": 1
+        },
+        {
+            "name": "Description",
+            "type": "text",
+            "x_order": 2
+        },
+        {
+            "name": "Packing",
+            "type": "text",
+            "x_order": 3
+        },
+        {
+            "name": "Opening",
+            "type": "decimal",
+            "x_order": 4
+        },
+        {
+            "name": "Purchase",
+            "type": "decimal",
+            "x_order": 5
+        },
+        {
+            "name": "Sales",
+            "type": "decimal",
+            "x_order": 6
+        },
+        {
+            "name": "Closing",
+            "type": "decimal",
+            "x_order": 7
+        },
+        {
+            "name": "Value",
+            "type": "decimal",
+            "x_order": 8
+        }
+    ],
+    "rows": []
+}

@@ -1,0 +1,43 @@
+meta {
+  name: 07 - Reprocess & Rotate Image
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/ocr/reprocess/{{docId}}?rotate_deg=180&flip_horizontal=false
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+params:query {
+  rotate_deg: 180
+  flip_horizontal: false
+}
+
+docs {
+  Re-runs an existing document through the pipeline, reusing the same document
+  id. Existing pages and results for that id are deleted first.
+
+  These are QUERY parameters, not form fields - there is no request body.
+
+  - rotate_deg        optional, default 0. Applied only when 90, 180 or 270.
+  - flip_horizontal   optional, default false.
+
+  document_type is not accepted here; the record's existing type is reused, or
+  AUTO if it has none.
+
+  ## Response
+
+  success, message, and data - the same full result object as the synchronous
+  submit in request 03.
+
+  ## Errors
+
+  - 404 document not found
+  - 404 the original source file no longer exists on disk
+}

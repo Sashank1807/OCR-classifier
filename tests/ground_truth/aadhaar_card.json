@@ -1,0 +1,59 @@
+{
+  "document": "11825e08_aadhaar1.jpg",
+  "document_type": "AADHAAR",
+  "table_type": "IDENTITY_CARD",
+  "physical_line_count": 5,
+  "logical_row_count": 5,
+  "product_row_count": 5,
+  "subtotal_row_count": 0,
+  "total_row_count": 0,
+  "columns": [
+    {
+      "name": "field_name",
+      "type": "text",
+      "x_order": 1
+    },
+    {
+      "name": "field_value",
+      "type": "text",
+      "x_order": 2
+    }
+  ],
+  "rows": [
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "aadhaar_number",
+        "field_value": "XXXX XXXX 1234"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "name",
+        "field_value": "Rajesh Kumar"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "dob",
+        "field_value": "01/01/1980"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "gender",
+        "field_value": ""
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "address",
+        "field_value": "123 MG Road, Bangalore, Karnataka - 560001"
+      }
+    }
+  ]
+}

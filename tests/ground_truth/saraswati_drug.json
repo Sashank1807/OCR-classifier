@@ -1,0 +1,43 @@
+{
+    "document": "01_saraswati_drug_agency.pdf",
+    "document_type": "STOCK_STATEMENT",
+    "table_type": "DIGITAL_PDF_TABLE",
+    "physical_line_count": 45,
+    "logical_row_count": 42,
+    "product_row_count": 41,
+    "subtotal_row_count": 0,
+    "total_row_count": 1,
+    "columns": [
+        {
+            "name": "Item Description",
+            "type": "text",
+            "x_order": 1
+        },
+        {
+            "name": "Packing",
+            "type": "text",
+            "x_order": 2
+        },
+        {
+            "name": "Opening Bal",
+            "type": "decimal",
+            "x_order": 3
+        },
+        {
+            "name": "Receipt",
+            "type": "decimal",
+            "x_order": 4
+        },
+        {
+            "name": "Sales",
+            "type": "decimal",
+            "x_order": 5
+        },
+        {
+            "name": "Closing Bal",
+            "type": "decimal",
+            "x_order": 6
+        }
+    ],
+    "rows": []
+}

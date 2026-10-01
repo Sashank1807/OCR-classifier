@@ -1,0 +1,32 @@
+meta {
+  name: 08 - Search Document History
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/v1/history/search?q=Aadhaar&doc_type=AADHAAR
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+params:query {
+  q: Aadhaar
+  ~doc_type: AADHAAR
+  ~language: English
+}
+
+docs {
+  Full-text search across processed documents.
+
+  All three parameters are optional; with none supplied every record is
+  returned.
+
+  - q          matches extracted text, filename or document type
+  - doc_type   exact match. The literal value "All" is treated as no filter.
+  - language   exact match. "All" is likewise treated as no filter.
+}

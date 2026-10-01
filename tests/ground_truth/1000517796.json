@@ -1,0 +1,124 @@
+{
+    "document": "1000517796.jpg",
+    "document_type": "STOCK_STATEMENT",
+    "table_type": "SIMPLE_GRID",
+    "physical_line_count": 10,
+    "logical_row_count": 4,
+    "product_row_count": 3,
+    "subtotal_row_count": 0,
+    "total_row_count": 1,
+    "columns": [
+        {
+            "name": "SL NO",
+            "type": "integer",
+            "x_order": 1
+        },
+        {
+            "name": "PRODUCT",
+            "type": "text",
+            "x_order": 2
+        },
+        {
+            "name": "PACK",
+            "type": "text",
+            "x_order": 3
+        },
+        {
+            "name": "OPENI QTY",
+            "type": "decimal",
+            "x_order": 4
+        },
+        {
+            "name": "RECEV QTY",
+            "type": "decimal",
+            "x_order": 5
+        },
+        {
+            "name": "SALES QTY",
+            "type": "decimal",
+            "x_order": 6
+        },
+        {
+            "name": "SALES AMOUNT",
+            "type": "decimal",
+            "x_order": 7
+        },
+        {
+            "name": "EXPAI LOSS",
+            "type": "decimal",
+            "x_order": 8
+        },
+        {
+            "name": "CLO QTY",
+            "type": "decimal",
+            "x_order": 9
+        },
+        {
+            "name": "CLOS AMOUNT",
+            "type": "decimal",
+            "x_order": 10
+        }
+    ],
+    "rows": [
+        {
+            "row_type": "product",
+            "cells": {
+                "SL NO": "1",
+                "PRODUCT": "MOISTE CREAM 100GM",
+                "PACK": "100GM",
+                "OPENI QTY": "101",
+                "RECEV QTY": "0",
+                "SALES QTY": "0",
+                "SALES AMOUNT": "0.00",
+                "EXPAI LOSS": "0",
+                "CLO QTY": "101",
+                "CLOS AMOUNT": "16725.60"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "SL NO": "2",
+                "PRODUCT": "MOISTE LOTION",
+                "PACK": "100ML",
+                "OPENI QTY": "8",
+                "RECEV QTY": "0",
+                "SALES QTY": "0",
+                "SALES AMOUNT": "0.00",
+                "EXPAI LOSS": "0",
+                "CLO QTY": "8",
+                "CLOS AMOUNT": "-696.00"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "SL NO": "3",
+                "PRODUCT": "TOFUS TAB",
+                "PACK": "10's",
+                "OPENI QTY": "45",
+                "RECEV QTY": "0",
+                "SALES QTY": "8",
+                "SALES AMOUNT": "1313.28",
+                "EXPAI LOSS": "0",
+                "CLO QTY": "37",
+                "CLOS AMOUNT": "6073.92"
+            }
+        },
+        {
+            "row_type": "total",
+            "cells": {
+                "SL NO": "",
+                "PRODUCT": "TOTAL:",
+                "PACK": "",
+                "OPENI QTY": "23416.80",
+                "RECEV QTY": "0.00",
+                "SALES QTY": "",
+                "SALES AMOUNT": "1313.28",
+                "EXPAI LOSS": "0.00",
+                "CLO QTY": "",
+                "CLOS AMOUNT": "22103.52"
+            }
+        }
+    ]
+}

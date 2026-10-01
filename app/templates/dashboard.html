@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <!-- Header -->
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <div>
+            <h3 class="fw-bold mb-1">Document Intelligence Dashboard</h3>
+            <p class="text-body-secondary mb-0">Overview of processed documents and classification stats.</p>
+        </div>
+        <a href="/upload" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm">
+            <i class="bi bi-cloud-arrow-up-fill"></i> Upload Document
+        </a>
+    </div>
+</div>
+
+<!-- Metrics Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card stat-card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-body d-flex align-items-center p-4">
+                <div class="rounded-3 bg-primary-subtle text-primary p-3 me-3">
+                    <i class="bi bi-file-earmark-text fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-body-secondary mb-1">Total Processed</h6>
+                    <h3 class="fw-bold mb-0">{{ total_docs }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card stat-card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-body d-flex align-items-center p-4">
+                <div class="rounded-3 bg-success-subtle text-success p-3 me-3">
+                    <i class="bi bi-layers fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-body-secondary mb-1">Total Pages Analyzed</h6>
+                    <h3 class="fw-bold mb-0">{{ total_pages }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Recent Activity Table (Full Width) -->
+    <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-semibold mb-0"><i class="bi bi-clock-history me-2 text-primary"></i>Recent Documents</h5>
+                <a href="/history" class="btn btn-sm btn-link text-decoration-none">View All <i class="bi bi-chevron-right"></i></a>
+            </div>
+            <div class="card-body p-0 mt-3">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 border-top">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Filename</th>
+                                <th>Category</th>
+                                <th>Language</th>
+                                <th>Pages</th>
+                                <th>Date</th>
+                                <th class="pe-4 text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if recent_docs %}
+                                {% for doc in recent_docs %}
+                                <tr>
+                                    <td class="ps-4 fw-medium text-truncate" style="max-width: 250px;">
+                                        <i class="bi bi-file-earmark-code me-2 text-secondary"></i>{{ doc.original_filename }}
+                                    </td>
+                                    <td><span class="badge text-bg-primary-subtle text-primary border border-primary-subtle">{{ doc.document_type }}</span></td>
+                                    <td><span class="badge text-bg-secondary-subtle text-secondary">{{ doc.language }}</span></td>
+                                    <td>{{ doc.page_count }}</td>
+                                    <td class="small text-body-secondary">{{ doc.created_at.strftime('%b %d, %H:%M') }}</td>
+                                    <td class="pe-4 text-end">
+                                        <a href="/result/{{ doc.id }}" class="btn btn-sm btn-outline-primary">View Result</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-body-secondary">No documents processed yet. Upload your first document to get started.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

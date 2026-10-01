@@ -1,0 +1,52 @@
+{
+  "document": "6b75bf34_PAN-CARD1.jpg",
+  "document_type": "PAN",
+  "table_type": "IDENTITY_CARD",
+  "physical_line_count": 4,
+  "logical_row_count": 4,
+  "product_row_count": 4,
+  "subtotal_row_count": 0,
+  "total_row_count": 0,
+  "columns": [
+    {
+      "name": "field_name",
+      "type": "text",
+      "x_order": 1
+    },
+    {
+      "name": "field_value",
+      "type": "text",
+      "x_order": 2
+    }
+  ],
+  "rows": [
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "name",
+        "field_value": "SANJAY KUMAR PRAJAPATI"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "pan_number",
+        "field_value": "BJQPP5524G"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "dob",
+        "field_value": "02/06/1990"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "field_name": "father_name",
+        "field_value": "DUKHIYA PRASHAD PRAJAPATI"
+      }
+    }
+  ]
+}

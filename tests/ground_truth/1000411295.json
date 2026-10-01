@@ -1,0 +1,253 @@
+{
+    "document": "1000411295.jpg",
+    "document_type": "STOCK_STATEMENT",
+    "table_type": "GRID_WITH_SUBTOTALS",
+    "physical_line_count": 22,
+    "logical_row_count": 17,
+    "product_row_count": 11,
+    "subtotal_row_count": 5,
+    "total_row_count": 1,
+    "columns": [
+        {
+            "name": "DESCRIPTION",
+            "type": "text",
+            "x_order": 1
+        },
+        {
+            "name": "Packing",
+            "type": "text",
+            "x_order": 2
+        },
+        {
+            "name": "QTY.",
+            "type": "integer",
+            "x_order": 3
+        },
+        {
+            "name": "FREE",
+            "type": "integer",
+            "x_order": 4
+        },
+        {
+            "name": "RATE",
+            "type": "decimal",
+            "x_order": 5
+        },
+        {
+            "name": "AMOUNT",
+            "type": "decimal",
+            "x_order": 6
+        },
+        {
+            "name": "(%)",
+            "type": "percentage",
+            "x_order": 7
+        }
+    ],
+    "rows": [
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "BILASET 40MG TAB",
+                "Packing": "1X10",
+                "QTY.": "20",
+                "FREE": "4",
+                "RATE": "114.09",
+                "AMOUNT": "2281.76",
+                "(%)": "19.33"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "GURMAIL MEDICINE CENTER",
+                "Packing": "",
+                "QTY.": "",
+                "FREE": "4",
+                "RATE": "",
+                "AMOUNT": "2281.76",
+                "(%)": "19.33"
+            }
+        },
+        {
+            "row_type": "subtotal",
+            "cells": {
+                "DESCRIPTION": "TOTAL:",
+                "Packing": "",
+                "QTY.": "20",
+                "FREE": "",
+                "RATE": "",
+                "AMOUNT": "",
+                "(%)": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "BORIT SB 130MG CAP",
+                "Packing": "1x10",
+                "QTY.": "20",
+                "FREE": "10",
+                "RATE": "171.37",
+                "AMOUNT": "3427.40",
+                "(%)": "29.04"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "CHAWLA PHARMACY",
+                "Packing": "",
+                "QTY.": "1",
+                "FREE": "",
+                "RATE": "171.37",
+                "AMOUNT": "171.37",
+                "(%)": "1.45"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "R.X.MEDICOS",
+                "Packing": "",
+                "QTY.": "",
+                "FREE": "",
+                "RATE": "",
+                "AMOUNT": "",
+                "(%)": ""
+            }
+        },
+        {
+            "row_type": "subtotal",
+            "cells": {
+                "DESCRIPTION": "TOTAL",
+                "Packing": "",
+                "QTY.": "21",
+                "FREE": "10",
+                "RATE": "",
+                "AMOUNT": "3598.77",
+                "(%)": "30.49"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "MINOSTRONG F",
+                "Packing": "1X60ML",
+                "QTY.": "3",
+                "FREE": "",
+                "RATE": "664.40",
+                "AMOUNT": "1993.20",
+                "(%)": "16.89"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "KIRAN DRUG STORE",
+                "Packing": "",
+                "QTY.": "",
+                "FREE": "",
+                "RATE": "",
+                "AMOUNT": "",
+                "(%)": ""
+            }
+        },
+        {
+            "row_type": "subtotal",
+            "cells": {
+                "DESCRIPTION": "TOTAL:",
+                "Packing": "",
+                "QTY.": "3",
+                "FREE": "0",
+                "RATE": "",
+                "AMOUNT": "1993.20",
+                "(%)": "16.89"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "MOISTE LOTION",
+                "Packing": "1X100ML",
+                "QTY.": "2",
+                "FREE": "",
+                "RATE": "194.60",
+                "AMOUNT": "389.20",
+                "(%)": "3.30"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "PUNJAB PHARMACY(RAGHUNATH HOS",
+                "Packing": "",
+                "QTY.": "10",
+                "FREE": "2",
+                "RATE": "194.60",
+                "AMOUNT": "1946.02",
+                "(%)": "16.49"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "SHRI RAGHUNATH DRUG STORE",
+                "Packing": "",
+                "QTY.": "",
+                "FREE": "",
+                "RATE": "",
+                "AMOUNT": "",
+                "(%)": ""
+            }
+        },
+        {
+            "row_type": "subtotal",
+            "cells": {
+                "DESCRIPTION": "TOTAL:",
+                "Packing": "",
+                "QTY.": "12",
+                "FREE": "2",
+                "RATE": "",
+                "AMOUNT": "2335.22",
+                "(%)": "19.78"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "DESCRIPTION": "NAFBOR CREAM",
+                "Packing": "1X30GM",
+                "QTY.": "5",
+                "FREE": "1",
+                "RATE": "318.89",
+                "AMOUNT": "1594.43",
+                "(%)": "13.51"
+            }
+        },
+        {
+            "row_type": "subtotal",
+            "cells": {
+                "DESCRIPTION": "TOTAL",
+                "Packing": "",
+                "QTY.": "5",
+                "FREE": "1",
+                "RATE": "",
+                "AMOUNT": "1594.43",
+                "(%)": "13.51"
+            }
+        },
+        {
+            "row_type": "total",
+            "cells": {
+                "DESCRIPTION": "GRAND TOTAL",
+                "Packing": "",
+                "QTY.": "61",
+                "FREE": "17",
+                "RATE": "",
+                "AMOUNT": "11803.38",
+                "(%)": ""
+            }
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+  "document": "test_data_prod/corpus/pan_real_upside_down.jpg",
+  "document_type": "PAN",
+  "note": "The same real PAN card, rotated 180 degrees - how a phone photograph of a card on a desk routinely arrives. Before orientation correction this returned the FATHER's name as `name` and the holder's name as `father_name`, at confidence 1.0 with no review flag: every value was on the page, so grounding passed it, and only the layout had changed. Expectations are identical to the upright fixture on purpose.",
+  "fields": {
+    "name": {"expect": "MANGALAPUDI ESWAR KUMAR REDDY", "match": "exact"},
+    "father_name": {"expect": "MANGALAPUDI VEERA VENKATA SUBBRARAMI", "match": "exact"},
+    "dob": {"expect": "30/08/2002", "match": "exact"},
+    "pan_number": {"expect": "AFAPE4843G", "match": "exact"}
+  },
+  "must_not_need_review": true
+}

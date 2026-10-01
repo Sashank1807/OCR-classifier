@@ -1,0 +1,229 @@
+{
+  "document": "1000411296.jpg",
+  "document_type": "STOCK_STATEMENT",
+  "table_type": "GRID_WITH_SUBTOTALS",
+  "physical_line_count": 24,
+  "logical_row_count": 15,
+  "product_row_count": 7,
+  "subtotal_row_count": 7,
+  "total_row_count": 1,
+  "columns": [
+    {
+      "name": "Sn.",
+      "type": "integer",
+      "x_order": 1
+    },
+    {
+      "name": "Description",
+      "type": "text",
+      "x_order": 2
+    },
+    {
+      "name": "Unit",
+      "type": "text",
+      "x_order": 3
+    },
+    {
+      "name": "Opening",
+      "type": "decimal",
+      "x_order": 4
+    },
+    {
+      "name": "In",
+      "type": "decimal",
+      "x_order": 5
+    },
+    {
+      "name": "Out",
+      "type": "decimal",
+      "x_order": 6
+    },
+    {
+      "name": "Balance",
+      "type": "decimal",
+      "x_order": 7
+    }
+  ],
+  "rows": [
+    {
+      "row_type": "product",
+      "cells": {
+        "Sn.": "1",
+        "Description": "BILASET 40MG",
+        "Unit": "10TAB",
+        "Opening": "51.000",
+        "In": "0.000",
+        "Out": "51.000",
+        "Balance": "0.000"
+      }
+    },
+    {
+      "row_type": "subtotal",
+      "cells": {
+        "Sn.": "",
+        "Description": "BILASET 40MG",
+        "Unit": "S-Total",
+        "Opening": "51.000",
+        "In": "0.000",
+        "Out": "51.000",
+        "Balance": "0.000"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "Sn.": "2",
+        "Description": "BORIT SB 130",
+        "Unit": "10TAB",
+        "Opening": "61.000",
+        "In": "0.000",
+        "Out": "14.000",
+        "Balance": "47.000"
+      }
+    },
+    {
+      "row_type": "subtotal",
+      "cells": {
+        "Sn.": "",
+        "Description": "BORIT SB 130",
+        "Unit": "S-Total",
+        "Opening": "61.000",
+        "In": "0.000",
+        "Out": "14.000",
+        "Balance": "47.000"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "Sn.": "3",
+        "Description": "BORIT SB 65",
+        "Unit": "10TAB",
+        "Opening": "61.000",
+        "In": "0.000",
+        "Out": "0.000",
+        "Balance": "61.000"
+      }
+    },
+    {
+      "row_type": "subtotal",
+      "cells": {
+        "Sn.": "",
+        "Description": "BORIT SB 65",
+        "Unit": "S-Total",
+        "Opening": "61.000",
+        "In": "0.000",
+        "Out": "0.000",
+        "Balance": "61.000"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "Sn.": "4",
+        "Description": "MINOSTRONG 60ML",
+        "Unit": "1BOT",
+        "Opening": "0.000",
+        "In": "30.000",
+        "Out": "9.000",
+        "Balance": "21.000"
+      }
+    },
+    {
+      "row_type": "subtotal",
+      "cells": {
+        "Sn.": "",
+        "Description": "MINOSTRONG 60ML",
+        "Unit": "S-Total",
+        "Opening": "0.000",
+        "In": "30.000",
+        "Out": "9.000",
+        "Balance": "21.000"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "Sn.": "5",
+        "Description": "MINOSTRONG 1.25MG",
+        "Unit": "10TAB",
+        "Opening": "0.000",
+        "In": "30.000",
+        "Out": "0.000",
+        "Balance": "30.000"
+      }
+    },
+    {
+      "row_type": "subtotal",
+      "cells": {
+        "Sn.": "",
+        "Description": "MINOSTRONG 1.25MG",
+        "Unit": "S-Total",
+        "Opening": "0.000",
+        "In": "30.000",
+        "Out": "0.000",
+        "Balance": "30.000"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "Sn.": "6",
+        "Description": "MINOSTRONG 2.5MG",
+        "Unit": "10TAB",
+        "Opening": "0.000",
+        "In": "30.000",
+        "Out": "12.000",
+        "Balance": "18.000"
+      }
+    },
+    {
+      "row_type": "subtotal",
+      "cells": {
+        "Sn.": "",
+        "Description": "MINOSTRONG 2.5MG",
+        "Unit": "S-Total",
+        "Opening": "0.000",
+        "In": "30.000",
+        "Out": "12.000",
+        "Balance": "18.000"
+      }
+    },
+    {
+      "row_type": "product",
+      "cells": {
+        "Sn.": "7",
+        "Description": "TOFUS TAB",
+        "Unit": "10TAB",
+        "Opening": "15.000",
+        "In": "0.000",
+        "Out": "0.000",
+        "Balance": "15.000"
+      }
+    },
+    {
+      "row_type": "subtotal",
+      "cells": {
+        "Sn.": "",
+        "Description": "TOFUS TAB",
+        "Unit": "S-Total",
+        "Opening": "15.000",
+        "In": "0.000",
+        "Out": "0.000",
+        "Balance": "15.000"
+      }
+    },
+    {
+      "row_type": "total",
+      "cells": {
+        "Sn.": "",
+        "Description": "Grand Total:",
+        "Unit": "",
+        "Opening": "188.000",
+        "In": "90.000",
+        "Out": "86.000",
+        "Balance": "192.000"
+      }
+    }
+  ]
+}

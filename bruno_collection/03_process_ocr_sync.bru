@@ -1,0 +1,67 @@
+meta {
+  name: 03 - Submit Document (Sync Direct Response)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/ocr/process
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+body:multipart-form {
+  file: @file(../test_data_june/StockSales_GENXPHARMADERMAGLOW_62026_260704_172654.pdf) @contentType(application/pdf)
+  ~project_name: VendorBillsApp
+  ~user_id: fin_user_01
+  ~document_type: AUTO
+  ~async_mode: false
+  ~response_format: full
+}
+
+script:post-response {
+  if (res.body && res.body.data && res.body.data.id) {
+    bru.setEnvVar("docId", res.body.data.id);
+  }
+}
+
+docs {
+  Same endpoint as 01, but blocks until processing finishes and returns the
+  full result inline. This is what you get when async_mode is false - and false
+  is the SERVER DEFAULT, so omitting async_mode entirely lands here.
+
+  ## Response
+
+  success, and a data object - NOT request_id/status like the async form. The
+  data object carries id, filename, document_type, language, has_handwriting,
+  pages, markdown, structured_data, processing_time, status, created_at, and
+  request_id.
+
+  This response includes structured_data. So does the asynchronous one - an
+  earlier version of this collection said otherwise (see 02).
+
+  There is no `tables` block and no plain_text - both repeated content already
+  in the payload. See the collection README.
+
+  ## response_format
+
+  `full` (the default) is the shape above. Set it to `erp` and `data` becomes
+  the business projection instead - named field values and object-keyed line
+  items, no markdown or verification evidence. See request 11 for the shape.
+  Anything else returns 400.
+
+  ## Caution
+
+  A large or multi-page document can hold the connection open for minutes.
+  Prefer 01 + 02 for anything non-trivial, and set a generous client timeout
+  if you use this form.
+
+  ## Errors
+
+  - 400 no valid file uploaded
+  - 500 processing failed
+}

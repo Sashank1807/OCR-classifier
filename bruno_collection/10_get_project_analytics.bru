@@ -1,0 +1,26 @@
+meta {
+  name: 10 - Single Project Analytics
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/v1/analytics/metrics/hr
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+docs {
+  Metrics restricted to one project, so a project team sees only its own
+  documents. The project name is the last path segment.
+
+  Matching is case-insensitive, and a record matches on either its
+  project_name or its department field - both are set from the project_name
+  you submit at upload time.
+
+  Change "hr" in the URL to whichever project you submitted under.
+}

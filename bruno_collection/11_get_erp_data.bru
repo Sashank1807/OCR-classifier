@@ -1,0 +1,94 @@
+meta {
+  name: 11 - Get ERP Data (business fields only)
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/api/v1/ocr/erp/{{docId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+docs {
+  The business data for one document, shaped for an ERP. Use this when you are
+  writing to an ERP record rather than showing a document to a person.
+
+  `docId` is set automatically by request 01 or 03.
+
+  ## What it returns
+
+      {
+        "success": true,
+        "response_format": "erp",
+        "data": {
+          "document_id": 1122,
+          "request_id": "req_...",
+          "source_file": "stock_july.xlsx",
+          "document_type": "SPREADSHEET",
+          "project_name": "VendorBillsApp",
+          "extracted_at": "2026-09-30T04:59:38",
+          "confidence": 1.0,
+          "review_required": false,
+          "data": { "sheet_title": "Sheet1" },
+          "line_items": [
+            { "Product": "Medicine A", "Qty": "10", "Price": "100.5" },
+            { "Product": "Medicine B", "Qty": "20", "Price": "200.75" }
+          ]
+        }
+      }
+
+  ## Three differences from the full response
+
+  **1. Line items are objects, not positional arrays.** The full response gives
+  you `fields.columns` and `fields.rows` as two parallel lists, so you have to
+  re-zip them - and any code that hardcodes `rows[i][2]` breaks the first time
+  a column order changes. Here they are already joined, keyed by column name.
+
+  Duplicate header names are suffixed (`Qty`, `Qty_2`, `Qty_3`) and blank ones
+  become `column_N`, so no column is ever silently dropped.
+
+  **2. No diagnostics.** `markdown`, `field_verification`,
+  `classification_confidence`, `column_model_uncertain` and the page list are
+  all absent. They are evidence *about* the extraction, for a human reviewer.
+  What survives is the part you can route on:
+
+  | Field | Use |
+  |---|---|
+  | `confidence` | 0.0-1.0 |
+  | `review_required` | true = do not post unattended |
+  | `review_fields` | present only when fields were flagged: the NAMES to hold |
+
+  **3. Empty fields are omitted, not sent as `""` or `{}`.** The schema
+  template contributes every key a document type could have; only the ones the
+  document actually yielded appear. Read defensively - a key you saw on one
+  document may be absent on the next.
+
+  ## Values are verbatim
+
+  No number parsing and no date reformatting. `"1,234.50"` stays that string,
+  `"02/06/1990"` stays in whatever form the document printed. Typing and
+  mapping are yours, because only you know your ERP's schema.
+
+  ## The same payload, three other ways
+
+  - `GET /api/v1/ocr/status/{request_id}?response_format=erp` - while polling
+  - `GET /api/v1/ocr/document/{doc_id}?response_format=erp`
+  - `POST /api/v1/ocr/process` with form field `response_format=erp`
+    (synchronous only - the async submit has no data to shape yet)
+  - `GET /api/v1/ocr/export/{doc_id}?format=erp` - the identical bytes as a
+    download, so a mapping built from a saved sample holds when you go live
+
+  An unrecognised `response_format` returns **400**, deliberately: silently
+  serving the full envelope for a misspelled `erp` would look like the slim
+  format does not work.
+
+  ## Errors
+
+  - 404 document not found
+  - 409 still processing, or the job failed - poll `/status` first
+}

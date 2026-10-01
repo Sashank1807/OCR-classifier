@@ -1,0 +1,133 @@
+{
+    "document": "1000517666.jpg",
+    "document_type": "STOCK_STATEMENT",
+    "table_type": "SIMPLE_GRID",
+    "physical_line_count": 18,
+    "logical_row_count": 13,
+    "product_row_count": 13,
+    "subtotal_row_count": 0,
+    "total_row_count": 0,
+    "columns": [
+        {
+            "name": "ITEM DESCRIPTION",
+            "type": "text",
+            "x_order": 1
+        },
+        {
+            "name": "ISSUE",
+            "type": "decimal",
+            "x_order": 2
+        },
+        {
+            "name": "CLOSING",
+            "type": "decimal",
+            "x_order": 3
+        }
+    ],
+    "rows": [
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "BILASET 40 TAB",
+                "ISSUE": "",
+                "CLOSING": "27"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "BORIT SB 130 CAP",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "BORIT SB 65 CAP",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "HETERONOX 1% CREAM",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MINOSTRONG 1.25 TAB",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MINOSTRONG 2.5 TAB",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MINOSTRONG SOLUTION",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MOISTE CREAM(100G)",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "NAFBOR CREAM",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "TOFUS TAB",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "TREBOR 0.025% CREAM",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "TREBOR 0.05% CREAM",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "ZEBOR 10% CREAM",
+                "ISSUE": "",
+                "CLOSING": ""
+            }
+        }
+    ]
+}

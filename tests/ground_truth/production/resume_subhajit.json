@@ -1,0 +1,21 @@
+{
+  "document": "test_data_prod/corpus/resume.pdf",
+  "document_type": "RESUME",
+  "note": "Two-page image-only PDF with two-column EDUCATION, COURSEWORK, TECHNICAL SKILLS and SOFT SKILLS blocks. This is the document whose columns were being interleaved by the table pipeline; the grades below are the ones that were getting swapped between qualifications.",
+  "fields": {
+    "candidate_name":      {"expect": "Subhajit Pati", "match": "exact_ci"},
+    "contact_info.email":  {"expect": "subhajitpati79@gmail.com", "match": "exact_ci"},
+    "contact_info.phone":  {"expect": "7583911377", "match": "digits"},
+    "education[0].degree":       {"expect": ["Bachelor of Pharmacy"], "match": "contains_all"},
+    "education[0].gpa_or_grade": {"expect": "7.29", "match": "contains"},
+    "education[0].institution":  {"expect": ["JNTUK"], "match": "contains_all"},
+    "education[1].degree":       {"expect": ["Higher Secondary"], "match": "contains_all"},
+    "education[1].gpa_or_grade": {"expect": "71", "match": "contains"},
+    "education[2].degree":       {"expect": ["Secondary"], "match": "contains_all"},
+    "education[2].gpa_or_grade": {"expect": "73", "match": "contains"},
+    "skills.languages":    {"expect": ["Bengali", "Hindi", "Odia", "English"], "match": "contains_all"}
+  },
+  "must_not_need_review": true,
+  "page_count": 2,
+  "pages_must_have_text": [1, 2]
+}

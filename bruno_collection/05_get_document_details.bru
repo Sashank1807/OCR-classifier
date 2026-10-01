@@ -1,0 +1,38 @@
+meta {
+  name: 05 - Get Document Details (by doc id)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/v1/ocr/document/{{docId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+docs {
+  Full record for a document by its numeric id (not the request_id). {{docId}}
+  is captured automatically by requests 02 and 03.
+
+  ## Response
+
+  success, and a document object holding id, request_id, department, user_id,
+  filename, document_type, language, has_handwriting, page_count,
+  processing_time, created_at, markdown, structured_data, and a pages array
+  with page_number, image_path, markdown and processing_time per page. No
+  plain_text, at either level - see request 02.
+
+  ## Important
+
+  Like request 02, this now carries structured_data, so the extracted table is
+  available here too. There is no separate `tables` block - it repeated content
+  already in structured_data. See the collection README.
+
+  ## Errors
+
+  - 404 document not found
+}

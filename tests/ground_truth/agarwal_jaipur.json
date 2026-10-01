@@ -1,0 +1,431 @@
+{
+    "document": "Agarwal Jaipur.jpeg",
+    "document_type": "STOCK_STATEMENT",
+    "table_type": "SIMPLE_GRID",
+    "physical_line_count": 35,
+    "logical_row_count": 29,
+    "product_row_count": 28,
+    "subtotal_row_count": 0,
+    "total_row_count": 1,
+    "columns": [
+        {
+            "name": "PRODUCT NAME",
+            "type": "text",
+            "x_order": 1
+        },
+        {
+            "name": "PACKING",
+            "type": "text",
+            "x_order": 2
+        },
+        {
+            "name": "Op.Bal. Qty.",
+            "type": "decimal",
+            "x_order": 3
+        },
+        {
+            "name": "Receipt Qty.",
+            "type": "decimal",
+            "x_order": 4
+        },
+        {
+            "name": "Total Qty.",
+            "type": "decimal",
+            "x_order": 5
+        },
+        {
+            "name": "Issue Qty.",
+            "type": "decimal",
+            "x_order": 6
+        },
+        {
+            "name": "Closing Balance",
+            "type": "decimal",
+            "x_order": 7
+        },
+        {
+            "name": "Near Expiry",
+            "type": "decimal",
+            "x_order": 8
+        }
+    ],
+    "rows": [
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "XTANZ-TAB",
+                "PACKING": "10.S",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "",
+                "Total Qty.": "",
+                "Issue Qty.": "",
+                "Closing Balance": "",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "AD-100G",
+                "PACKING": "10.S",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "0",
+                "Total Qty.": "",
+                "Issue Qty.": "",
+                "Closing Balance": "",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "AD-160MG SCH.",
+                "PACKING": "1GRAM",
+                "Op.Bal. Qty.": "48",
+                "Receipt Qty.": "",
+                "Total Qty.": "48",
+                "Issue Qty.": "9",
+                "Closing Balance": "39",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "BILASET-20MG",
+                "PACKING": "10TAB",
+                "Op.Bal. Qty.": "0",
+                "Receipt Qty.": "50",
+                "Total Qty.": "50",
+                "Issue Qty.": "",
+                "Closing Balance": "50",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "BILASET-40",
+                "PACKING": "10TAB",
+                "Op.Bal. Qty.": "45",
+                "Receipt Qty.": "",
+                "Total Qty.": "45",
+                "Issue Qty.": "",
+                "Closing Balance": "45",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "BILASET-M",
+                "PACKING": "10TAB",
+                "Op.Bal. Qty.": "63",
+                "Receipt Qty.": "75",
+                "Total Qty.": "138",
+                "Issue Qty.": "",
+                "Closing Balance": "138",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "BIXIVA TAB 5MG",
+                "PACKING": "10TAB",
+                "Op.Bal. Qty.": "20",
+                "Receipt Qty.": "0",
+                "Total Qty.": "20",
+                "Issue Qty.": "",
+                "Closing Balance": "20",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "FX-24 SUSPENSION",
+                "PACKING": "60ML",
+                "Op.Bal. Qty.": "0",
+                "Receipt Qty.": "65",
+                "Total Qty.": "65",
+                "Issue Qty.": "26",
+                "Closing Balance": "39",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "HEADRIX TAB",
+                "PACKING": "2TAB",
+                "Op.Bal. Qty.": "50",
+                "Receipt Qty.": "",
+                "Total Qty.": "50",
+                "Issue Qty.": "",
+                "Closing Balance": "50",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "ITBOR-100MG 10'S",
+                "PACKING": "10CAP",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "150",
+                "Total Qty.": "150",
+                "Issue Qty.": "",
+                "Closing Balance": "150",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "ITBOR-200CAP",
+                "PACKING": "10CAP",
+                "Op.Bal. Qty.": "71",
+                "Receipt Qty.": "",
+                "Total Qty.": "71",
+                "Issue Qty.": "70",
+                "Closing Balance": "1",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "LAZ-250",
+                "PACKING": "6.S",
+                "Op.Bal. Qty.": "27",
+                "Receipt Qty.": "",
+                "Total Qty.": "27",
+                "Issue Qty.": "",
+                "Closing Balance": "27",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "LAZ-500",
+                "PACKING": "6.S",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "300",
+                "Total Qty.": "300",
+                "Issue Qty.": "",
+                "Closing Balance": "300",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "LAZINE-M",
+                "PACKING": "10.S",
+                "Op.Bal. Qty.": "91",
+                "Receipt Qty.": "",
+                "Total Qty.": "91",
+                "Issue Qty.": "",
+                "Closing Balance": "91",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "LULIBOR LOTION",
+                "PACKING": "30ML",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "",
+                "Total Qty.": "",
+                "Issue Qty.": "",
+                "Closing Balance": "",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "MOISTE JAR",
+                "PACKING": "50GM",
+                "Op.Bal. Qty.": "75",
+                "Receipt Qty.": "",
+                "Total Qty.": "75",
+                "Issue Qty.": "35",
+                "Closing Balance": "40",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "MOISTE-CREAM 100GM",
+                "PACKING": "100GM",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "48",
+                "Total Qty.": "48",
+                "Issue Qty.": "16",
+                "Closing Balance": "32",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "MOISTE-LOTION 100ML",
+                "PACKING": "100ML",
+                "Op.Bal. Qty.": "0",
+                "Receipt Qty.": "",
+                "Total Qty.": "",
+                "Issue Qty.": "",
+                "Closing Balance": "",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "OPOX-200MG",
+                "PACKING": "10.S",
+                "Op.Bal. Qty.": "21",
+                "Receipt Qty.": "",
+                "Total Qty.": "21",
+                "Issue Qty.": "",
+                "Closing Balance": "21",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "OPOX-CV 200MG",
+                "PACKING": "10TAB",
+                "Op.Bal. Qty.": "36",
+                "Receipt Qty.": "8",
+                "Total Qty.": "44",
+                "Issue Qty.": "",
+                "Closing Balance": "44",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "PANTIN IV",
+                "PACKING": "1.S",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "3500",
+                "Total Qty.": "3500",
+                "Issue Qty.": "",
+                "Closing Balance": "3500",
+                "Near Expiry": "12"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "PANTIN-D",
+                "PACKING": "10CAP",
+                "Op.Bal. Qty.": "42",
+                "Receipt Qty.": "150",
+                "Total Qty.": "192",
+                "Issue Qty.": "17",
+                "Closing Balance": "175",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "PANTIN-L CAP",
+                "PACKING": "10.S",
+                "Op.Bal. Qty.": "69",
+                "Receipt Qty.": "560",
+                "Total Qty.": "629",
+                "Issue Qty.": "5",
+                "Closing Balance": "624",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "TANZ TAB(MKGST)",
+                "PACKING": "",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "",
+                "Total Qty.": "",
+                "Issue Qty.": "",
+                "Closing Balance": "",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "TOFUS-TAB",
+                "PACKING": "10.S.",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "60",
+                "Total Qty.": "60",
+                "Issue Qty.": "",
+                "Closing Balance": "60",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "VERTIGEN-TAB",
+                "PACKING": "10.S",
+                "Op.Bal. Qty.": "66",
+                "Receipt Qty.": "30",
+                "Total Qty.": "96",
+                "Issue Qty.": "",
+                "Closing Balance": "96",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "ZEBOR 20% 15GM",
+                "PACKING": "15GM",
+                "Op.Bal. Qty.": "",
+                "Receipt Qty.": "15",
+                "Total Qty.": "15",
+                "Issue Qty.": "",
+                "Closing Balance": "15",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "PRODUCT NAME": "ZEBOR-10% CREAM",
+                "PACKING": "15G",
+                "Op.Bal. Qty.": "0",
+                "Receipt Qty.": "15",
+                "Total Qty.": "15",
+                "Issue Qty.": "",
+                "Closing Balance": "15",
+                "Near Expiry": ""
+            }
+        },
+        {
+            "row_type": "total",
+            "cells": {
+                "PRODUCT NAME": "TOTAL",
+                "PACKING": "",
+                "Op.Bal. Qty.": "127317",
+                "Receipt Qty.": "146803",
+                "Total Qty.": "274120",
+                "Issue Qty.": "44658",
+                "Closing Balance": "229462",
+                "Near Expiry": "3668"
+            }
+        }
+    ]
+}

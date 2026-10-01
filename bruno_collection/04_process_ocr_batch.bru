@@ -1,0 +1,42 @@
+meta {
+  name: 04 - Submit Multiple Documents (Batch)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/v1/ocr/process
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+body:multipart-form {
+  files: @file(../test_data_june/1000411295.jpg) @contentType(image/jpeg)
+  files: @file(../test_data_june/1000411296.jpg) @contentType(image/jpeg)
+  ~project_name: hr
+  ~user_id: emp_1042
+  ~document_type: AUTO
+  ~async_mode: true
+}
+
+docs {
+  Batch upload. The endpoint accepts a repeated `files` field (or a repeated
+  `file` field - both are collected, and duplicates by filename are dropped).
+
+  ## Response differs from the single-document form
+
+  Async batch: success, total_documents, batch_requests, message - where
+  batch_requests is an array of objects each holding filename, request_id and
+  status. There is no top-level request_id; poll each entry separately with
+  request 02.
+
+  Sync batch: success, total_documents, and data as an array of full result
+  objects.
+
+  A client that assumes the single-document shape will break here, which is
+  why this is a separate request rather than a note on 01.
+}

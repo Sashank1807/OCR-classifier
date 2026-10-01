@@ -1,0 +1,308 @@
+{
+    "document": "Bansal barelly.jpeg",
+    "document_type": "STOCK_STATEMENT",
+    "table_type": "SIMPLE_GRID",
+    "physical_line_count": 28,
+    "logical_row_count": 24,
+    "product_row_count": 23,
+    "subtotal_row_count": 0,
+    "total_row_count": 1,
+    "columns": [
+        {
+            "name": "ITEM DESCRIPTION",
+            "type": "text",
+            "x_order": 1
+        },
+        {
+            "name": "Packing",
+            "type": "text",
+            "x_order": 2
+        },
+        {
+            "name": "OPENING",
+            "type": "decimal",
+            "x_order": 3
+        },
+        {
+            "name": "RECEIPT",
+            "type": "decimal",
+            "x_order": 4
+        },
+        {
+            "name": "ISSUE",
+            "type": "decimal",
+            "x_order": 5
+        },
+        {
+            "name": "CLOSING",
+            "type": "decimal",
+            "x_order": 6
+        }
+    ],
+    "rows": [
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "ADABOR GEL",
+                "Packing": "15GM",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "BILASET-40 TAB",
+                "Packing": "1*10",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "BORIT-SB-130CAP",
+                "Packing": "1*10",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "BORIT-SB-65CAP",
+                "Packing": "1*10",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "HETERONOX CREAM",
+                "Packing": "10GM",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "LULIBOR LOTION",
+                "Packing": "30ML",
+                "OPENING": "3",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "3"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MINOSTRONG SOLUTION",
+                "Packing": "60ML",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MINOSTRONG-1.25 TAB",
+                "Packing": "1*10",
+                "OPENING": "-",
+                "RECEIPT": "60",
+                "ISSUE": "-",
+                "CLOSING": "60"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MINOSTRONG-2.5 TAB",
+                "Packing": "1*10",
+                "OPENING": "-",
+                "RECEIPT": "15",
+                "ISSUE": "-",
+                "CLOSING": "15"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MINOSTRONG-F SOLUTION",
+                "Packing": "60ML",
+                "OPENING": "-",
+                "RECEIPT": "15",
+                "ISSUE": "6",
+                "CLOSING": "6"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "MOISTE CREAM",
+                "Packing": "100GM",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "NAFBOR CREAM",
+                "Packing": "10GM",
+                "OPENING": "-",
+                "RECEIPT": "15",
+                "ISSUE": "-",
+                "CLOSING": "15"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "SPARKEL",
+                "Packing": "50GM",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "SPARKEL GLOW",
+                "Packing": "50GM",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "SPARKEL YOUTH",
+                "Packing": "50GM",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "TOFUS TAB",
+                "Packing": "1*10",
+                "OPENING": "-",
+                "RECEIPT": "30",
+                "ISSUE": "15",
+                "CLOSING": "15"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "TREBOR-0.025% CREAM",
+                "Packing": "20GM",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "TREBOR-0.05% CREAM",
+                "Packing": "20GM",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "ZEBOR-10% GEL",
+                "Packing": "15GM",
+                "OPENING": "-",
+                "RECEIPT": "30",
+                "ISSUE": "6",
+                "CLOSING": "21"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "ZEBOR-20% GEL",
+                "Packing": "15GM",
+                "OPENING": "-",
+                "RECEIPT": "30",
+                "ISSUE": "9",
+                "CLOSING": "21"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "HETERO-DERMA GLOW",
+                "Packing": "",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "EXTRA PRODUCT 1",
+                "Packing": "1*10",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "product",
+            "cells": {
+                "ITEM DESCRIPTION": "EXTRA PRODUCT 2",
+                "Packing": "1*10",
+                "OPENING": "-",
+                "RECEIPT": "-",
+                "ISSUE": "-",
+                "CLOSING": "-"
+            }
+        },
+        {
+            "row_type": "total",
+            "cells": {
+                "ITEM DESCRIPTION": "TOTAL",
+                "Packing": "",
+                "OPENING": "7610",
+                "RECEIPT": "25976",
+                "ISSUE": "12009",
+                "CLOSING": "21576"
+            }
+        }
+    ]
+}

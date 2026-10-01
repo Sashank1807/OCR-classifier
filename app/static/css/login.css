@@ -1,0 +1,848 @@
+/* ==========================================================================
+   Sign-in — matched to the reference design
+   --------------------------------------------------------------------------
+   An airy, near-white page; one wide card with very large radii; an INSET
+   blue panel on the left with its own corners floating inside the card; a
+   roomy form on the right with big type and tall, soft inputs.
+
+   The things that actually make the reference look the way it does, in
+   order of how much they matter:
+
+     1. The blue panel is inset, not flush. It sits a little way in from the
+        card's edges with its own rounded corners, so the white card reads
+        as a frame around it. Flush to the edge is what makes a split login
+        look like a template.
+     2. Radii are large and nested: ~32px card, ~24px panel, ~16px inputs.
+     3. Space is generous. The form has roughly 4rem of breathing room and
+        the inputs are 58px tall.
+     4. Type is big and tight. The heading is heavy with negative tracking,
+        over a small letter-spaced eyebrow.
+     5. The blue is soft and light, not corporate navy.
+
+   Self-contained; main.css is not loaded here. Motion is limited to
+   transform and opacity, which the compositor handles alone.
+   ========================================================================== */
+
+:root {
+    /* -- the blue ramp, sampled from the reference ---------------------- */
+    --blue-100: #eaf3fd;
+    --blue-200: #d4e6fa;
+    --blue-300: #a9ccf2;
+    --blue-400: #7fb2e8;
+    --blue-500: #5e97dc;
+    --blue-600: #4683cd;
+    --blue-700: #336db4;
+
+    /* -- page and card -------------------------------------------------- */
+    --page: #eef4fb;
+    --page-lift: #f7fbff;
+    --card: rgba(255, 255, 255, .78);
+    --card-line: rgba(255, 255, 255, .9);
+
+    /* -- ink ------------------------------------------------------------ */
+    --ink: #0f1a26;
+    --ink-soft: #5c6b7d;
+    --ink-mute: #93a3b4;
+    --line: #e6edf5;
+
+    --danger-bg: #fef2f2;
+    --danger-ink: #991b1b;
+    --danger-line: #fecaca;
+
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --ease: cubic-bezier(.4, 0, .2, 1);
+    --spring: cubic-bezier(.16, 1, .3, 1);
+    --t: 200ms var(--ease);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { height: 100%; }
+
+body {
+    min-height: 100%;
+    margin: 0;
+    font-family: var(--font);
+    color: var(--ink);
+    background: var(--page);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* A broad light source from the upper left, exactly as the reference has:
+   the page is brightest near the brand lockup and cools toward the edges. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(60rem 42rem at 18% -8%, var(--page-lift), transparent 62%),
+        radial-gradient(44rem 34rem at 92% 10%, rgba(214, 233, 252, .75), transparent 60%),
+        radial-gradient(40rem 32rem at 76% 104%, rgba(205, 228, 250, .6), transparent 62%);
+}
+
+/* --------------------------------------------------------------------------
+   Brand lockup
+   -------------------------------------------------------------------------- */
+
+.brand {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: 1.6rem 2rem;
+}
+
+.brand__mark {
+    width: 2.45rem;
+    height: 2.45rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(145deg, var(--blue-400), var(--blue-600));
+    box-shadow:
+        0 4px 12px rgba(70, 131, 205, .35),
+        inset 0 1px 0 rgba(255, 255, 255, .4);
+}
+
+.brand__text { display: flex; flex-direction: column; line-height: 1.2; }
+
+.brand__text strong {
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--ink);
+}
+
+.brand__text em {
+    font-style: normal;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--blue-600);
+}
+
+/* --------------------------------------------------------------------------
+   Stage and card
+   -------------------------------------------------------------------------- */
+
+.stage {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    padding: 1rem 2rem 4rem;
+    min-height: calc(100vh - 6rem);
+}
+
+.shell {
+    display: grid;
+    grid-template-columns: 1fr 1.08fr;
+    width: 100%;
+    max-width: 1320px;
+    min-height: 40rem;                  /* gives the panel room to breathe */
+    padding: 16px;                      /* the inset that frames the panel */
+    border-radius: 38px;
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+    box-shadow:
+        0 1px 1px rgba(15, 26, 38, .03),
+        0 10px 24px rgba(42, 86, 134, .07),
+        0 36px 70px rgba(42, 86, 134, .11);
+    animation: shellIn 620ms var(--spring) both;
+}
+
+@keyframes shellIn {
+    from { opacity: 0; transform: translate3d(0, 18px, 0) scale(.99); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Left: the blue panel, inset inside the card
+   -------------------------------------------------------------------------- */
+
+.panel {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 3.5rem 3rem 2.5rem;
+    border-radius: 28px;
+    color: #fff;
+    background: linear-gradient(158deg, var(--blue-400) 0%, var(--blue-500) 52%, var(--blue-600) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3);
+}
+
+/* ------------------------------------------------------------------------
+   Panel motion
+
+   Four layers, each on its own compositor layer and each animating only
+   `transform` or `opacity`. None of them touches paint, so the whole panel
+   can be in constant motion without costing a frame:
+
+     glow   - two interior light pools, drifting and breathing
+     sheen  - a wide specular band crossing the panel every 9s
+     motes  - six particles rising and fading
+     halo   - a soft pulse behind the emblem
+
+   The point of layering it this way rather than animating the panel's own
+   background is that a background animation repaints the panel on every
+   frame, and the panel sits on a backdrop-filtered card - so that repaint
+   would drag the card's blur along with it.
+   ------------------------------------------------------------------------ */
+
+/* Soft interior light, lit rather than filled - and never quite still. */
+.panel__glow {
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(22rem 18rem at 28% 22%, rgba(255, 255, 255, .36), transparent 62%),
+        radial-gradient(20rem 16rem at 88% 86%, rgba(51, 109, 180, .45), transparent 64%),
+        radial-gradient(16rem 14rem at 70% 18%, rgba(217, 237, 255, .3), transparent 62%);
+    will-change: transform;
+    animation: glowDrift 26s var(--ease) infinite alternate;
+}
+
+@keyframes glowDrift {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    50%  { transform: translate3d(3%, -2.5%, 0) scale(1.08) rotate(3deg); }
+    100% { transform: translate3d(-2.5%, 2%, 0) scale(1.04) rotate(-2deg); }
+}
+
+/* A specular band sweeping across the glass, the way light crosses a panel
+   as you turn it. Long pause, short sweep - a constant sweep reads as a
+   loading bar. */
+.panel__sheen {
+    position: absolute;
+    top: -30%;
+    bottom: -30%;
+    left: 0;
+    width: 45%;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(100deg, transparent,
+                rgba(255, 255, 255, .22) 42%,
+                rgba(255, 255, 255, .34) 50%,
+                rgba(255, 255, 255, .22) 58%, transparent);
+    will-change: transform;
+    animation: sheenSweep 9s var(--ease) infinite;
+}
+
+@keyframes sheenSweep {
+    0%, 62%   { transform: translate3d(-130%, 0, 0) rotate(8deg); }
+    92%, 100% { transform: translate3d(300%, 0, 0) rotate(8deg); }
+}
+
+/* Motes: six dots rising the height of the panel and fading at both ends.
+   Position and phase come from inline custom properties, so one rule
+   drives all six and no two share a rhythm. */
+.motes {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.motes span {
+    position: absolute;
+    left: var(--x);
+    bottom: -3rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, .95), rgba(255, 255, 255, .15) 70%);
+    opacity: 0;
+    will-change: transform, opacity;
+    transform: scale(var(--s));
+    animation: moteRise 21s linear infinite;
+    animation-delay: var(--d);
+}
+
+@keyframes moteRise {
+    0%        { opacity: 0;   transform: translate3d(0, 0, 0) scale(var(--s)); }
+    12%       { opacity: .85; }
+    50%       { transform: translate3d(2.2rem, -22rem, 0) scale(var(--s)); }
+    82%       { opacity: .5; }
+    100%      { opacity: 0;   transform: translate3d(-1rem, -46rem, 0) scale(var(--s)); }
+}
+
+.panel__center {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* -- the emblem ----------------------------------------------------------
+   Seven layers around one cross. Everything animates `transform` or
+   `opacity` only, each on its own compositor layer, so the whole assembly
+   runs without a single repaint - which matters here because it sits on a
+   backdrop-filtered card and a repaint would drag the card's blur with it.
+
+   Stacking order, back to front:
+     pulse  - sonar rings expanding outward
+     disc   - the glass plate the cross rests on
+     radar  - a conic sweep, like a scanner crossing a page
+     rings  - two counter-rotating guides
+     orbits - three satellites riding those paths
+     glyph  - the cross, with a shine travelling across it
+   ------------------------------------------------------------------------ */
+
+.emblem {
+    animation: emblemIn 820ms var(--spring) 120ms both;
+    position: relative;
+    width: 13rem;
+    height: 13rem;
+    display: grid;
+    place-items: center;
+    margin-bottom: 1.6rem;
+}
+
+/* Every layer is centred by the same grid cell. */
+.emblem > * { grid-area: 1 / 1; }
+
+/* -- sonar --------------------------------------------------------------- */
+
+.emblem__pulse {
+    width: 7.2rem;
+    height: 7.2rem;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, .5);
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: sonar 4.6s var(--ease) infinite;
+}
+.emblem__pulse--2 { animation-delay: 2.3s; }
+
+@keyframes sonar {
+    0%   { opacity: 0;   transform: scale(.72); }
+    18%  { opacity: .62; }
+    100% { opacity: 0;   transform: scale(1.62); }
+}
+
+/* -- glass disc ---------------------------------------------------------- */
+
+.emblem__disc {
+    width: 7.6rem;
+    height: 7.6rem;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 32% 26%, rgba(255, 255, 255, .5), rgba(255, 255, 255, .12) 58%,
+                        rgba(255, 255, 255, .05) 100%);
+    border: 1px solid rgba(255, 255, 255, .38);
+    box-shadow:
+        inset 0 2px 10px rgba(255, 255, 255, .45),
+        inset 0 -8px 20px rgba(41, 94, 158, .25),
+        0 14px 34px rgba(26, 74, 128, .3);
+    will-change: transform;
+    animation: discBreathe 7s var(--ease) infinite alternate;
+}
+
+@keyframes discBreathe {
+    to { transform: scale(1.04); }
+}
+
+/* -- radar sweep ---------------------------------------------------------
+   A conic gradient masked into an annulus, rotating. Reads as a scanner
+   passing over the page, which is what the product does.                   */
+
+.emblem__radar {
+    width: 7.6rem;
+    height: 7.6rem;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+                rgba(255, 255, 255, 0) 0deg,
+                rgba(255, 255, 255, .34) 46deg,
+                rgba(255, 255, 255, 0) 92deg,
+                rgba(255, 255, 255, 0) 360deg);
+    -webkit-mask: radial-gradient(circle, transparent 54%, #000 56%, #000 99%, transparent 100%);
+    mask: radial-gradient(circle, transparent 54%, #000 56%, #000 99%, transparent 100%);
+    will-change: transform;
+    animation: spin 6.5s linear infinite;
+}
+
+/* -- guide rings ---------------------------------------------------------- */
+
+.emblem__ring {
+    width: 10.4rem;
+    height: 10.4rem;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, .4);
+    will-change: transform;
+    animation: spin 46s linear infinite;
+}
+
+.emblem__ring--2 {
+    width: 8.9rem;
+    height: 8.9rem;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, .2);
+    animation-duration: 30s;
+    animation-direction: reverse;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* -- satellites ----------------------------------------------------------
+   A rotating wrapper with the dot pinned to its top edge: the wrapper spins,
+   so the dot travels the circle. One transform per satellite, which is why
+   this is cheaper than animating a path.                                    */
+
+.emblem__orbit {
+    width: 10.4rem;
+    height: 10.4rem;
+    border-radius: 50%;
+    will-change: transform;
+    animation: spin 11s linear infinite;
+}
+
+.emblem__orbit i {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, .95), 0 0 20px rgba(214, 238, 255, .7);
+}
+
+.emblem__orbit--2 {
+    width: 8.9rem;
+    height: 8.9rem;
+    animation-duration: 8s;
+    animation-direction: reverse;
+}
+.emblem__orbit--2 i { width: 6px; height: 6px; margin-left: -3px; top: -3px; opacity: .85; }
+
+.emblem__orbit--3 {
+    width: 10.4rem;
+    height: 10.4rem;
+    animation-duration: 11s;
+    animation-delay: -5.5s;          /* half a lap behind the first */
+}
+.emblem__orbit--3 i { width: 5px; height: 5px; margin-left: -2.5px; top: -2.5px; opacity: .7; }
+
+/* -- the cross ------------------------------------------------------------ */
+
+.emblem__glyph {
+    position: relative;
+    filter: drop-shadow(0 14px 28px rgba(26, 74, 128, .45));
+    will-change: transform;
+    animation: hover 7s var(--ease) infinite alternate;
+}
+
+@keyframes hover {
+    to { transform: translate3d(0, -8px, 0); }
+}
+
+/* The shine crosses the cross itself, clipped to its outline, with a long
+   pause between passes so it reads as a glint and not a loop. */
+.emblem__shine {
+    will-change: transform;
+    animation: shine 6.5s var(--ease) infinite;
+}
+
+@keyframes shine {
+    0%, 55%   { transform: translateX(0); }
+    85%, 100% { transform: translateX(150px); }
+}
+
+/* -- panel copy ---------------------------------------------------------- */
+
+.panel__title {
+    animation: panelRise 700ms var(--spring) 260ms both;
+    margin: 0 0 .75rem;
+    font-size: clamp(1.6rem, 2.3vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: -.032em;
+    line-height: 1.18;
+}
+
+.panel__lede {
+    animation: panelRise 700ms var(--spring) 340ms both;
+    margin: 0 0 1.5rem;
+    max-width: 32ch;
+    font-size: .92rem;
+    font-weight: 400;
+    line-height: 1.62;
+    color: rgba(255, 255, 255, .86);
+}
+
+.panel__status {
+    animation: panelRise 700ms var(--spring) 430ms both;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1.1rem;
+    font-size: .78rem;
+    font-weight: 500;
+    border-radius: 99px;
+    color: #fff;
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .36);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28);
+}
+
+.panel__dot {
+    width: .45rem;
+    height: .45rem;
+    border-radius: 50%;
+    background: #d8fbe4;
+    animation: pulse 2.6s var(--ease) infinite;
+}
+
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(216, 251, 228, .7); }
+    70%  { box-shadow: 0 0 0 .5rem rgba(216, 251, 228, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(216, 251, 228, 0); }
+}
+
+/* -- chips --------------------------------------------------------------- */
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.chips li {
+    padding: .48rem .9rem;
+    animation: chipIn 620ms var(--spring) both;
+    animation-delay: calc(540ms + var(--n) * 110ms);
+    transition: transform var(--t) var(--spring), background-color var(--t);
+}
+
+.chips li:hover {
+    transform: translate3d(0, -2px, 0);
+    background: rgba(255, 255, 255, .24);
+}
+
+@keyframes chipIn {
+    from { opacity: 0; transform: translate3d(0, 10px, 0); }
+    to   { opacity: 1; transform: none; }
+}
+
+.chips li {
+    font-size: .74rem;
+    font-weight: 400;
+    border-radius: 99px;
+    color: rgba(255, 255, 255, .88);
+    background: rgba(255, 255, 255, .15);
+    border: 1px solid rgba(255, 255, 255, .26);
+    white-space: nowrap;
+}
+
+.chips strong { font-weight: 700; color: #fff; }
+
+/* --------------------------------------------------------------------------
+   Right: the form
+   -------------------------------------------------------------------------- */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3.5rem clamp(2.25rem, 4vw, 4.75rem);
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    margin: 0 0 .9rem;
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--blue-600);
+}
+
+.eyebrow__dash {
+    width: 1.5rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--blue-500);
+}
+
+.form__title {
+    margin: 0 0 .5rem;
+    font-size: clamp(2.3rem, 3.9vw, 3.25rem);
+    font-weight: 800;
+    letter-spacing: -.042em;
+    line-height: 1.05;
+    color: var(--ink);
+}
+
+.form__sub {
+    margin: 0 0 2.1rem;
+    font-size: .95rem;
+    color: var(--ink-soft);
+}
+
+/* -- fields -------------------------------------------------------------- */
+
+.field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.field__icon {
+    position: absolute;
+    left: 1.25rem;
+    font-size: .95rem;
+    color: var(--ink-mute);
+    pointer-events: none;
+    transition: color var(--t);
+}
+
+.field input {
+    width: 100%;
+    height: 62px;
+    padding: 0 3.3rem 0 3.2rem;
+    font-family: inherit;
+    font-size: .98rem;
+    color: var(--ink);
+    background: rgba(255, 255, 255, .92);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    outline: none;
+    transition: border-color var(--t), box-shadow var(--t), background-color var(--t);
+}
+
+.field input::placeholder { color: var(--ink-mute); font-weight: 400; }
+.field input:hover { border-color: var(--blue-200); }
+
+.field input:focus {
+    background: #fff;
+    border-color: var(--blue-300);
+    box-shadow: 0 0 0 4px rgba(126, 178, 232, .2);
+}
+
+.field:focus-within .field__icon { color: var(--blue-600); }
+
+/* The reference puts a soft blue underline beneath a focused field. Drawn
+   as a scaled pseudo-element so nothing animates width or layout. */
+.field::after {
+    content: "";
+    position: absolute;
+    left: 1.2rem;
+    right: 1.2rem;
+    bottom: -1px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--blue-400), var(--blue-600));
+    opacity: 0;
+    transform: scaleX(.4);
+    transition: transform 340ms var(--spring), opacity 220ms var(--ease);
+    pointer-events: none;
+}
+.field:focus-within::after { opacity: 1; transform: scaleX(1); }
+
+.field__reveal {
+    position: absolute;
+    right: .75rem;
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    padding: 0;
+    font-size: .95rem;
+    color: var(--ink-mute);
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color var(--t), transform 130ms var(--ease);
+}
+.field__reveal:hover { color: var(--blue-600); }
+.field__reveal:active { transform: scale(.88); }
+.field__reveal:focus-visible {
+    outline: none;
+    color: var(--blue-600);
+    box-shadow: 0 0 0 3px rgba(126, 178, 232, .3);
+}
+
+/* -- call to action ------------------------------------------------------ */
+
+.cta {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 62px;
+    margin-top: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .7rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -.005em;
+    color: #fff;
+    cursor: pointer;
+    border: 0;
+    border-radius: 99px;                /* the reference's pill */
+    background: linear-gradient(140deg, var(--blue-400), var(--blue-600) 60%, var(--blue-700));
+    box-shadow:
+        0 8px 20px rgba(70, 131, 205, .34),
+        inset 0 1px 0 rgba(255, 255, 255, .3);
+    transition: transform var(--t) var(--spring), box-shadow var(--t) var(--spring);
+}
+
+.cta:hover {
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 14px 30px rgba(70, 131, 205, .42), inset 0 1px 0 rgba(255, 255, 255, .34);
+}
+.cta:active { transform: translate3d(0, 0, 0) scale(.99); transition-duration: 90ms; }
+.cta:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(126, 178, 232, .45), 0 8px 20px rgba(70, 131, 205, .3);
+}
+
+.cta i { transition: transform var(--t) var(--spring); }
+.cta:hover i { transform: translate3d(4px, 0, 0); }
+
+.cta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(110deg, transparent 28%,
+                rgba(255, 255, 255, .3) 50%, transparent 72%);
+    transform: translate3d(-130%, 0, 0);
+}
+.cta:hover::after {
+    transition: transform 800ms var(--ease);
+    transform: translate3d(130%, 0, 0);
+}
+
+/* -- feedback ------------------------------------------------------------ */
+
+.alert {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    padding: .85rem 1rem;
+    margin-bottom: 1.2rem;
+    font-size: .86rem;
+    line-height: 1.5;
+    border-radius: 14px;
+    color: var(--danger-ink);
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-line);
+    animation: alertIn 340ms var(--ease) both;
+}
+.alert i { margin-top: .12rem; flex: none; }
+
+@keyframes alertIn {
+    from { opacity: 0; transform: translate3d(0, -6px, 0); }
+    to   { opacity: 1; transform: none; }
+}
+
+.form__note {
+    margin: 1.9rem 0 0;
+    font-size: .76rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--ink-mute);
+}
+
+.form__note code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .73rem;
+    padding: .12rem .38rem;
+    border-radius: 6px;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Narrower screens
+
+   The panel stacks above the form and loses the emblem - it is the first
+   thing to cost vertical space and the last thing anyone needs on a phone.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 940px) {
+    .stage { padding: .5rem 1.25rem 2.5rem; min-height: 0; }
+    .shell { grid-template-columns: 1fr; max-width: 32rem; min-height: 0;
+             padding: 10px; border-radius: 28px; }
+    .panel { padding: 2rem 1.75rem 1.6rem; gap: 1.4rem; border-radius: 20px; }
+    .emblem { display: none; }
+    .panel__title { font-size: 1.35rem; }
+    .panel__lede { margin-bottom: 1.1rem; }
+    .form { padding: 2.25rem 1.75rem 1.75rem; }
+    .form__title { font-size: 2rem; }
+    .form__sub { margin-bottom: 1.6rem; }
+}
+
+@media (max-width: 480px) {
+    .brand { padding: 1.1rem 1.25rem; }
+    .panel__status, .chips { display: none; }
+    .panel { padding: 1.75rem 1.4rem; }
+    .form { padding: 1.9rem 1.4rem 1.5rem; }
+    .field input { height: 54px; }
+    .cta { height: 54px; }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    /* Entrances resolve, ambient loops stop, and every promoted layer is
+       released - a paused `will-change` still holds GPU memory. */
+    .shell, .alert, .emblem, .panel__title, .panel__lede,
+    .panel__status, .chips li {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+    .emblem__ring, .emblem__glyph, .emblem__disc, .emblem__radar,
+    .emblem__orbit, .emblem__shine, .panel__dot,
+    .panel__glow, .panel__sheen {
+        animation: none;
+        will-change: auto;
+    }
+    /* The sonar rings and the radar sweep are only meaningful in motion;
+       frozen they are a stray ring and a bright wedge, so they go. The
+       satellites stay - parked, they read as deliberate detail. */
+    .emblem__pulse, .emblem__radar { display: none; }
+    .emblem__shine { transform: translateX(0); opacity: 0; }
+    /* The sheen is parked off-panel rather than frozen mid-sweep, which
+       would leave a bright band sitting across the artwork. */
+    .panel__sheen { transform: translate3d(-130%, 0, 0) rotate(8deg); }
+    .motes { display: none; }
+    .chips li:hover { transform: none; }
+    .cta:hover { transform: none; }
+    .cta:hover i { transform: none; }
+    .cta:hover::after { transition: none; transform: translate3d(-130%, 0, 0); }
+}
+
+/* No backdrop-filter support: an opaque card. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .shell { background: rgba(255, 255, 255, .96); }
+}

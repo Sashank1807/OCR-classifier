@@ -1,0 +1,71 @@
+meta {
+  name: 02 - Get OCR Status & Result
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/ocr/status/{{requestId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+script:post-response {
+  // Keep the document id handy for requests 05, 06, 07 and 11.
+  if (res.body && res.body.document && res.body.document.id) {
+    bru.setEnvVar("docId", res.body.document.id);
+  }
+}
+
+docs {
+  Polls an asynchronous job. {{requestId}} is set automatically by request 01,
+  so run 01 first; otherwise set requestId in the environment by hand.
+  
+  ## Three possible responses - a polling client must handle all three
+  
+  PROCESSING - success, request_id, document_id, status, current_page,
+  total_pages, percent, message, project_name, user_id, created_at.
+  
+  WATCH OUT: while processing, `status` is not the bare string "PROCESSING" -
+  it carries progress, e.g. "PROCESSING (Page 1 of 1)". Only the submit
+  response in request 01 returns a bare "PROCESSING". So poll with a prefix
+  test, never equality:
+  
+      status.startsWith("PROCESSING")
+  
+  "COMPLETED" and "FAILED" are exact and can be compared directly.
+  
+  COMPLETED - success, request_id, status, project_name, user_id, and a
+  document object holding id, filename, document_type, language,
+  processing_time, created_at, completed_at and markdown.
+  
+  There is no plain_text - it was the same content as markdown with the
+  formatting stripped, so it was dropped from the payload. The contract is
+  markdown plus structured JSON.
+  
+  FAILED - success is FALSE, plus request_id, status, error_message,
+  project_name, user_id.
+  
+  ## It DOES return the structured data
+  
+  `document.structured_data` carries the extracted table (`fields.columns`,
+  `fields.rows`, and per document type `fields.items` /
+  `fields.summary_totals`). An earlier version of this collection said the
+  endpoint returned markdown only; that is no longer true, and no second call
+  is needed to get the JSON.
+  
+  ## ERP shape
+  
+  Add `?response_format=erp` to get business fields and object-keyed line
+  items instead of the `document` block - see request 11. The PROCESSING and
+  FAILED responses are unaffected: there is no extracted data to shape yet.
+  
+  ## Errors
+  
+  - 400 unrecognised response_format
+  - 404 request_id not found
+}

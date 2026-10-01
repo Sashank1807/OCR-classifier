@@ -1,0 +1,71 @@
+{
+  "document": "test_data_prod/corpus/aadhaar_real.jpg",
+  "document_type": "AADHAAR",
+  "note": "Real Aadhaar ENROLLMENT LETTER (not the card form): it carries an enrollment number, a mobile number and a full postal address, and repeats the holder on a detachable card at the bottom. Aadhaar number verified against its Verhoeff check digit. The enrollment date 05/05/2011 is printed down the left edge and was landing in `dob` on about half of all runs; it now has its own field.",
+  "fields": {
+    "name": {
+      "expect": "Vadlamudi Sashank",
+      "match": "exact_ci"
+    },
+    "guardian_name": {
+      "expect": "Vadlamudi Ravi Kumar",
+      "match": "exact_ci"
+    },
+    "dob": {
+      "expect": "19/12/2004",
+      "match": "exact"
+    },
+    "gender": {
+      "expect": "Male",
+      "match": "exact_ci"
+    },
+    "aadhaar_number": {
+      "expect": "6394 1918 1234",
+      "match": "digits"
+    },
+    "enrollment_number": {
+      "expect": "0704/18002/35507",
+      "match": "digits"
+    },
+    "mobile": {
+      "expect": "9704744880",
+      "match": "digits"
+    },
+    "district": {
+      "expect": "East Godavari",
+      "match": "exact_ci"
+    },
+    "state": {
+      "expect": "Andhra Pradesh",
+      "match": "exact_ci"
+    },
+    "pin_code": {
+      "expect": "533002",
+      "match": "exact"
+    },
+    "address": {
+      "expect": [
+        "52-1-58/1",
+        "bhanu vari street",
+        "jagannickpur",
+        "Kakinada",
+        "533002"
+      ],
+      "match": "contains_all"
+    },
+    "enrollment_date": {
+      "expect": "05/05/2011",
+      "match": "digits"
+    }
+  },
+  "must_not_contain": {
+    "address": [
+      "S/O",
+      "Vadlamudi Ravi Kumar"
+    ]
+  },
+  "must_not_need_review": true,
+  "must_not_equal": {
+    "dob": "enrollment_date"
+  }
+}

@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+
+{% block title %}Result: {{ record.original_filename }} | {{ app_name }}{% endblock %}
+
+{% block content %}
+<!-- Top Header Bar -->
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+    <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                <span class="badge text-bg-primary fs-6">{{ record.document_type }}</span>
+                <span class="badge text-bg-light border text-dark fs-6"><i class="bi bi-clock me-1"></i>{{ record.processing_time }}s</span>
+            </div>
+            <h4 class="fw-bold mb-0 text-truncate" style="max-width: 600px;">{{ record.original_filename }}</h4>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center gap-1" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-download"></i> Export Output
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                    <li><a class="dropdown-menu-item dropdown-item" href="/api/v1/ocr/export/{{ record.id }}?format=erp"><i class="bi bi-diagram-3 me-2 text-primary"></i>ERP Data (.json)</a></li>
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li><a class="dropdown-menu-item dropdown-item" href="/api/v1/ocr/export/{{ record.id }}?format=json"><i class="bi bi-filetype-json me-2 text-warning"></i>Structured JSON (.json)</a></li>
+                    <li><a class="dropdown-menu-item dropdown-item" href="/api/v1/ocr/export/{{ record.id }}?format=txt"><i class="bi bi-filetype-txt me-2 text-secondary"></i>Clean Plain Text (.txt)</a></li>
+                    <li><a class="dropdown-menu-item dropdown-item" href="/api/v1/ocr/export/{{ record.id }}?format=csv"><i class="bi bi-filetype-csv me-2 text-success"></i>CSV Spreadsheet (.csv)</a></li>
+                </ul>
+            </div>
+            <button class="btn btn-outline-secondary" id="reprocessBtn" data-id="{{ record.id }}">
+                <i class="bi bi-arrow-repeat me-1"></i> Reprocess
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Split Viewer -->
+<div class="row g-4">
+    <!-- Left Pane: Document Image / Page Selector -->
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-bottom p-3 d-flex justify-content-between align-items-center">
+                <h6 class="fw-semibold mb-0"><i class="bi bi-image me-2 text-primary"></i>Document Preview</h6>
+                {% if pages and pages|length > 1 %}
+                    <div class="d-flex align-items-center gap-2">
+                        <small class="text-body-secondary">Page:</small>
+                        <select class="form-select form-select-sm" id="pageSelect" style="width: auto;">
+                            {% for page in pages %}
+                                <option value="{{ page.page_number }}" data-url="{{ page.page_image_path|media_url }}">Page {{ page.page_number }} of {{ pages|length }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-body p-3 text-center bg-body-tertiary d-flex flex-column align-items-center justify-content-center overflow-auto" style="min-height: 500px; max-height: 750px;">
+                {% if pages and pages[0].page_image_path %}
+                    <img id="docPreviewImg" src="{{ pages[0].page_image_path|media_url }}" class="img-fluid rounded border shadow-sm style-preview-img mb-3" alt="Document Preview">
+                    
+                    <!-- Quick Image Correction Toolbar -->
+                    <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap bg-body p-2 rounded-3 border shadow-sm w-100">
+                        <small class="text-body-secondary fw-semibold me-1">Correction:</small>
+                        <button type="button" class="btn btn-sm btn-outline-primary transform-btn" data-rotate="180" title="Rotate image 180 degrees upside down fix">
+                            <i class="bi bi-arrow-repeat me-1"></i> Rotate 180°
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-primary transform-btn" data-flip="true" title="Flip mirrored image left-to-right">
+                            <i class="bi bi-symmetry-horizontal me-1"></i> Mirror Unflip
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary transform-btn" data-rotate="90" title="Rotate 90 degrees right">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Rotate 90°
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="text-body-secondary py-5">
+                        <i class="bi bi-file-earmark-x display-4"></i>
+                        <p class="mt-2">Preview Image Unavailable</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Pane: Multi-Tab OCR Output Reader -->
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-bottom p-2">
+                <ul class="nav nav-tabs card-header-tabs border-0" id="resultTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active fw-medium" id="erp-tab" data-bs-toggle="tab" data-bs-target="#erp-pane" type="button" role="tab">
+                            <i class="bi bi-diagram-3 me-1"></i> ERP Data
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-medium" id="markdown-tab" data-bs-toggle="tab" data-bs-target="#markdown-pane" type="button" role="tab">
+                            <i class="bi bi-markdown me-1"></i> Markdown
+                            {% if pages and pages|length > 1 %}
+                                <span class="badge text-bg-secondary ms-1">{{ pages|length }} pages</span>
+                            {% endif %}
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-medium" id="text-tab" data-bs-toggle="tab" data-bs-target="#text-pane" type="button" role="tab">
+                            <i class="bi bi-file-text me-1"></i> Plain Text
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-medium" id="json-tab" data-bs-toggle="tab" data-bs-target="#json-pane" type="button" role="tab">
+                            <i class="bi bi-braces me-1"></i> JSON Format
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body p-4 overflow-auto" style="max-height: 700px;">
+                <div class="tab-content" id="resultTabsContent">
+
+                    <!-- ERP Data Pane -->
+                    <!--
+                      What the ERP receives, rendered from the SAME projection the
+                      API publishes (app/services/erp_payload.py). Only the
+                      business values: no verification evidence, no classification
+                      internals, no markdown. Positional table rows are joined
+                      with their header here too, so a reviewer sees the column a
+                      value landed in rather than counting cells.
+                    -->
+                    <div class="tab-pane fade show active" id="erp-pane" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                            <h6 class="text-body-secondary mb-0">Business Data for ERP Integration</h6>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-target="erpJsonContent">
+                                    <i class="bi bi-clipboard me-1"></i> Copy ERP JSON
+                                </button>
+                                <a class="btn btn-sm btn-outline-primary" href="/api/v1/ocr/export/{{ record.id }}?format=erp">
+                                    <i class="bi bi-download me-1"></i> Download
+                                </a>
+                            </div>
+                        </div>
+
+                        {% if erp_data %}
+                            <!-- Routing signals: what an ERP decides on before posting -->
+                            <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
+                                <span class="badge text-bg-primary">{{ erp_data.document_type }}</span>
+                                {% if erp_data.confidence is not none %}
+                                    <span class="badge {{ 'text-bg-success' if erp_data.confidence >= 0.85 else ('text-bg-warning' if erp_data.confidence >= 0.5 else 'text-bg-danger') }}">
+                                        Confidence {{ (erp_data.confidence * 100)|round|int }}%
+                                    </span>
+                                {% endif %}
+                                {% if erp_data.review_required %}
+                                    <span class="badge text-bg-danger"><i class="bi bi-exclamation-triangle me-1"></i>Review required</span>
+                                {% else %}
+                                    <span class="badge text-bg-success"><i class="bi bi-check-circle me-1"></i>Ready to post</span>
+                                {% endif %}
+                                {% if erp_data.request_id %}
+                                    <span class="badge text-bg-light border text-dark font-monospace">{{ erp_data.request_id }}</span>
+                                {% endif %}
+                            </div>
+
+                            <!--
+                              Why, not just whether. An operator seeing only
+                              "review required" cannot act; seeing "the image
+                              is 180x261" knows to rescan.
+                            -->
+                            {% if erp_data.review_reason %}
+                                <div class="alert alert-danger d-flex align-items-start gap-2 py-2 px-3 small">
+                                    <i class="bi bi-camera mt-1"></i>
+                                    <div>
+                                        <strong>The source image could not be read reliably:</strong>
+                                        {{ erp_data.review_reason }}.
+                                        Re-scan or re-upload at a higher resolution — anything extracted
+                                        from an unreadable page is a guess, so it is not being trusted.
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if erp_data.review_fields %}
+                                <div class="alert alert-warning d-flex align-items-start gap-2 py-2 px-3 small">
+                                    <i class="bi bi-exclamation-triangle-fill mt-1"></i>
+                                    <div>
+                                        <strong>Hold these fields for a person:</strong>
+                                        {{ erp_data.review_fields|join(', ') }}.
+                                        The rest of the document verified against the page.
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Named field values -->
+                            {% if erp_data.data %}
+                                <div class="table-responsive border rounded-3 mb-4">
+                                    <table class="table table-sm table-hover mb-0 align-middle">
+                                        <tbody>
+                                        {% for key, value in erp_data.data.items() %}
+                                            <tr>
+                                                <th class="bg-body-tertiary text-body-secondary fw-semibold small text-nowrap" style="width: 34%;">{{ key }}</th>
+                                                <td>
+                                                    {% if value is mapping %}
+                                                        {% for sub_key, sub_value in value.items() %}
+                                                            <div class="small"><span class="text-body-secondary">{{ sub_key }}:</span> {{ sub_value }}</div>
+                                                        {% endfor %}
+                                                    {% elif value is sequence and value is not string %}
+                                                        {% for entry in value %}
+                                                            {% if entry is mapping %}
+                                                                <div class="small border-start border-2 ps-2 mb-2">
+                                                                    {% for sub_key, sub_value in entry.items() %}
+                                                                        <div><span class="text-body-secondary">{{ sub_key }}:</span> {{ sub_value }}</div>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            {% else %}
+                                                                <span class="badge text-bg-light border text-dark me-1 mb-1">{{ entry }}</span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        {{ value }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+
+                            <!-- Line items, already joined to their column names -->
+                            {% if erp_data.line_items %}
+                                <h6 class="text-body-secondary mb-2">
+                                    Line Items <span class="badge text-bg-light border text-dark">{{ erp_data.line_items|length }}</span>
+                                </h6>
+                                <div class="table-responsive border rounded-3 mb-4">
+                                    <table class="table table-sm table-striped table-hover mb-0 align-middle">
+                                        <thead class="bg-body-tertiary">
+                                            <tr>
+                                                <th class="text-body-secondary small">#</th>
+                                                {% for col in erp_columns %}
+                                                    <th class="text-body-secondary small text-nowrap">{{ col }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in erp_data.line_items %}
+                                            <tr>
+                                                <td class="text-body-tertiary small">{{ loop.index }}</td>
+                                                {% for col in erp_columns %}
+                                                    <td class="small">{{ item.get(col, '') }}</td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+
+                            <!--
+                              Further tables: a multi-sheet spreadsheet, or a
+                              document whose pages did not merge into one
+                              table. Without this the tab showed only the first
+                              table while the payload carried them all, which
+                              reads as "a page went missing".
+                            -->
+                            {% for extra in erp_data.additional_tables or [] %}
+                                {% set extra_columns = extra|line_item_columns %}
+                                <h6 class="text-body-secondary mb-2">
+                                    Table {{ extra.table }}
+                                    <span class="badge text-bg-light border text-dark">{{ extra.line_items|length }}</span>
+                                </h6>
+                                <div class="table-responsive border rounded-3 mb-4">
+                                    <table class="table table-sm table-striped table-hover mb-0 align-middle">
+                                        <thead class="bg-body-tertiary">
+                                            <tr>
+                                                <th class="text-body-secondary small">#</th>
+                                                {% for col in extra_columns %}
+                                                    <th class="text-body-secondary small text-nowrap">{{ col }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in extra.line_items %}
+                                            <tr>
+                                                <td class="text-body-tertiary small">{{ loop.index }}</td>
+                                                {% for col in extra_columns %}
+                                                    <td class="small">{{ item.get(col, '') }}</td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endfor %}
+
+                            {% if not erp_data.data and not erp_data.line_items %}
+                                <div class="alert alert-secondary small mb-4">
+                                    No business fields were extracted from this document. The
+                                    Markdown and JSON tabs still show what the pipeline read.
+                                </div>
+                            {% endif %}
+
+                            <!-- The exact bytes the API sends, so an integrator can map against it -->
+                            <details class="mb-0">
+                                <summary class="text-body-secondary small fw-semibold" style="cursor: pointer;">
+                                    Payload sent to the ERP API
+                                    <code class="ms-1">GET /api/v1/ocr/erp/{{ record.id }}</code>
+                                </summary>
+                                <div class="p-3 bg-body border rounded-3 mt-2" id="erpJsonContent">
+                                    <pre class="mb-0 style-pre-wrap font-monospace small">{{ erp_data|tojson_pretty }}</pre>
+                                </div>
+                            </details>
+                        {% else %}
+                            <div class="alert alert-secondary mb-0">
+                                The ERP view could not be built for this document. See the
+                                JSON tab for the raw structured output.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Markdown Pane -->
+                    <div class="tab-pane fade" id="markdown-pane" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="text-body-secondary mb-0">Reconstructed Layout &amp; Markdown</h6>
+                            <button class="btn btn-sm btn-outline-secondary copy-btn" data-target="markdownContent">
+                                <i class="bi bi-clipboard me-1"></i> Copy Markdown
+                            </button>
+                        </div>
+
+                        <!--
+                          Per page, not one scrolling blob.
+
+                          Every page WAS in this pane already - concatenated,
+                          with the page marker buried in the text - and a
+                          reader on a 2-page document reasonably concluded
+                          page 2 had not been extracted. Each page now states
+                          itself, with its own heading and character count.
+                        -->
+                        <div class="markdown-preview" id="markdownContent">
+                            {% if pages %}
+                                {% for page in pages %}
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge text-bg-primary">Page {{ page.page_number }} of {{ pages|length }}</span>
+                                            <small class="text-body-tertiary">{{ (page.markdown or '')|length }} characters</small>
+                                            {% if not (page.markdown or '').strip() %}
+                                                <span class="badge text-bg-danger">No text extracted from this page</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="p-3 bg-body border rounded-3">
+                                            <pre class="mb-0 style-pre-wrap">{{ page.markdown }}</pre>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="p-3 bg-body border rounded-3">
+                                    <pre class="mb-0 style-pre-wrap">{{ result.markdown_text if result else record.raw_text }}</pre>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Plain Text Pane -->
+                    <div class="tab-pane fade" id="text-pane" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="text-body-secondary mb-0">Raw Verbatim OCR Output</h6>
+                            <button class="btn btn-sm btn-outline-secondary copy-btn" data-target="textContent">
+                                <i class="bi bi-clipboard me-1"></i> Copy Text
+                            </button>
+                        </div>
+                        <div class="p-3 bg-body border rounded-3" id="textContent">
+                            <pre class="mb-0 style-pre-wrap">{{ result.raw_text if result else '' }}</pre>
+                        </div>
+                    </div>
+
+                    <!-- JSON Format Pane -->
+                    <div class="tab-pane fade" id="json-pane" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="text-body-secondary mb-0">Structured Extracted Data (JSON)</h6>
+                            <button class="btn btn-sm btn-outline-secondary copy-btn" data-target="jsonContent">
+                                <i class="bi bi-clipboard me-1"></i> Copy JSON
+                            </button>
+                        </div>
+                        <div class="p-3 bg-body border rounded-3" id="jsonContent">
+                            <pre class="mb-0 style-pre-wrap font-monospace" style="color: #0d6efd;">{{ (result.structured_json_str if (result and result.structured_json_str and result.structured_json_str != '{}') else (result.tables_json_str if (result and result.tables_json_str and result.tables_json_str != '[]') else '{"status": "No structured JSON available for this document"}'))|tojson_pretty }}</pre>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ static_url('static/js/result.js') if static_url is defined else '/static/js/result.js' }}"></script>
+{% endblock %}

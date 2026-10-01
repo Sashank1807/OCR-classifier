@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+
+{% block title %}Enterprise Analytics | {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <!-- Header -->
+    <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h3 class="fw-bold mb-1">Enterprise Analytics & Token Ledger</h3>
+            <p class="text-body-secondary mb-0">Multi-department monitoring, token usage metrics, and document classification analytics.</p>
+        </div>
+        <button class="btn btn-outline-primary d-flex align-items-center gap-2 shadow-sm rounded-pill" id="refreshAnalyticsBtn">
+            <i class="bi bi-arrow-repeat"></i> Refresh Metrics
+        </button>
+    </div>
+</div>
+
+<!-- Metrics Overview Row -->
+<div class="row g-4 mb-4" id="metricsCardsRow">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="rounded-3 bg-primary-subtle text-primary p-3 me-3">
+                    <i class="bi bi-send-check fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-body-secondary mb-1 small">Total Requests</h6>
+                    <h3 class="fw-bold mb-0" id="metricTotalRequests">-</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="rounded-3 bg-success-subtle text-success p-3 me-3">
+                    <i class="bi bi-cpu fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-body-secondary mb-1 small">Tokens Consumed</h6>
+                    <h3 class="fw-bold mb-0" id="metricTotalTokens">-</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="rounded-3 bg-info-subtle text-info p-3 me-3">
+                    <i class="bi bi-speedometer2 fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-body-secondary mb-1 small">Avg Processing Time</h6>
+                    <h3 class="fw-bold mb-0" id="metricAvgTime">-</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="rounded-3 bg-warning-subtle text-warning p-3 me-3">
+                    <i class="bi bi-shield-check fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-body-secondary mb-1 small">Avg Accuracy</h6>
+                    <h3 class="fw-bold mb-0" id="metricAvgConfidence">-</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Search & Metrics Filter Bar -->
+<div class="row mb-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden border">
+            <span class="input-group-text bg-body border-0 ps-4"><i class="bi bi-folder-check text-primary fs-5"></i></span>
+            <input type="text" class="form-control bg-body border-0 fs-6" id="projectSearchInput" placeholder="Search Project Metrics (e.g. EmployeePortal, VendorBillsApp)...">
+            <button class="btn btn-primary px-4 fw-medium" type="button" id="projectSearchBtn">Search Project</button>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Project-Wise Usage Table -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h5 class="fw-semibold mb-0"><i class="bi bi-folder-symlink me-2 text-primary"></i>Project Wise Usage Breakdown</h5>
+                <span class="badge text-bg-secondary rounded-pill">Multi-Project Microservice Ledger</span>
+            </div>
+            <div class="card-body p-0 mt-3">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 border-top">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Project Name</th>
+                                <th>Total Requests</th>
+                                <th>Tokens Consumed</th>
+                                <th>Avg Accuracy</th>
+                                <th class="pe-4 text-end">Avg Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="departmentTableBody">
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-body-secondary">
+                                    <span class="spinner-border spinner-border-sm me-2"></span>Loading project metrics...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Type Distribution -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+                <h5 class="fw-semibold mb-0"><i class="bi bi-pie-chart me-2 text-primary"></i>Document Type Distribution</h5>
+            </div>
+            <div class="card-body p-4" id="documentTypeDistributionContainer">
+                <div class="text-center py-4 text-body-secondary">
+                    <span class="spinner-border spinner-border-sm me-2"></span>Loading breakdown...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Token Monitoring Details -->
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+    <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+        <h5 class="fw-semibold mb-0"><i class="bi bi-cpu-fill me-2 text-primary"></i>LLM Token Usage Summary</h5>
+    </div>
+    <div class="card-body p-4">
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 bg-body-tertiary">
+                    <small class="text-body-secondary d-block mb-1">Prompt Tokens (Input)</small>
+                    <h4 class="fw-bold mb-0 text-primary" id="promptTokensCount">-</h4>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 bg-body-tertiary">
+                    <small class="text-body-secondary d-block mb-1">Completion Tokens (Output)</small>
+                    <h4 class="fw-bold mb-0 text-success" id="completionTokensCount">-</h4>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 bg-body-tertiary">
+                    <small class="text-body-secondary d-block mb-1">Total Token Ledger</small>
+                    <h4 class="fw-bold mb-0 text-warning" id="totalTokensCount">-</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================================================================
+     Department API keys (administrator only)
+
+     Issuing a key hands over read access to every extracted document, so
+     this lives behind the same gate as the rest of analytics. The plaintext
+     is shown exactly once, at creation, and is not recoverable afterwards -
+     the panel says so where it is displayed, not in documentation nobody
+     opens.
+     ====================================================================== -->
+<div class="card border-0 shadow-sm rounded-3 mb-4" id="apiKeysCard">
+    <div class="card-header bg-transparent border-bottom p-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+            <h6 class="fw-semibold mb-0">
+                <i class="bi bi-key me-2 text-primary"></i>Department API Keys
+            </h6>
+            <small class="text-body-secondary">
+                Issue one key per department so a single key can be revoked without disturbing the others.
+            </small>
+        </div>
+        <button class="btn btn-primary btn-sm rounded-pill px-3 d-flex align-items-center gap-2"
+                data-bs-toggle="modal" data-bs-target="#generateKeyModal">
+            <i class="bi bi-plus-lg"></i> Generate API Key
+        </button>
+    </div>
+
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-body-tertiary">
+                    <tr>
+                        <th class="small text-body-secondary ps-3">Department</th>
+                        <th class="small text-body-secondary">Key</th>
+                        <th class="small text-body-secondary">Created</th>
+                        <th class="small text-body-secondary">Last used</th>
+                        <th class="small text-body-secondary">Status</th>
+                        <th class="small text-body-secondary text-end pe-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="apiKeysBody">
+                    <tr><td colspan="6" class="text-center text-body-secondary py-4">Loading…</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Generate: asks for the department -->
+<div class="modal fade" id="generateKeyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 p-4 pb-2">
+                <div>
+                    <h5 class="modal-title fw-bold mb-1">Generate API Key</h5>
+                    <small class="text-body-secondary">The key is shown once and cannot be retrieved later.</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 pt-2">
+                <label for="keyDepartmentInput" class="form-label small fw-semibold">
+                    Department <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="keyDepartmentInput"
+                       placeholder="e.g. Radiology, Cardiology, HR" maxlength="120" autocomplete="off">
+                <div class="form-text small">
+                    This name appears beside the key so you know what to revoke later.
+                </div>
+                <div class="alert alert-danger py-2 px-3 small mt-3 d-none" id="keyFormError" role="alert"></div>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+                <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary rounded-pill px-4" id="generateKeyBtn">
+                    <i class="bi bi-key me-1"></i> Generate
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reveal: the only time the plaintext exists on screen -->
+<div class="modal fade" id="newKeyModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 p-4 pb-2">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success-subtle text-success"
+                          style="width:44px;height:44px;">
+                        <i class="bi bi-check-lg fs-5"></i>
+                    </span>
+                    <div>
+                        <h5 class="modal-title fw-bold mb-0">Key issued</h5>
+                        <small class="text-body-secondary" id="newKeyDepartment"></small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body p-4 pt-2">
+                <div class="alert alert-warning d-flex align-items-start gap-2 py-2 px-3 small">
+                    <i class="bi bi-exclamation-triangle-fill mt-1"></i>
+                    <div>
+                        <strong>Copy this now.</strong> Only a hash is stored, so this
+                        key cannot be shown again. If it is lost, revoke it and issue another.
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control font-monospace small" id="newKeyValue" readonly>
+                    <button class="btn btn-outline-primary" type="button" id="copyNewKeyBtn">
+                        <i class="bi bi-clipboard me-1"></i> Copy
+                    </button>
+                </div>
+                <div class="form-text small mt-2">
+                    Send it as the <code>X-API-Key</code> header. It works immediately.
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+                <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">
+                    I have copied it
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Detail Modal -->
+<div class="modal fade" id="projectDetailModal" tabindex="-1" aria-labelledby="projectDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-primary text-white p-4 border-0">
+                <div class="d-flex align-items-center justify-content-between w-100 me-2">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-white text-primary p-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                            <i class="bi bi-folder-check fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title fw-bold mb-0" id="projectModalTitle">Project Insights</h5>
+                            <small class="text-white-50" id="projectModalSubtitle">Project level tokens & document format breakdown</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" id="modalSwitchToUploadBtn" class="btn btn-light btn-sm text-primary fw-semibold rounded-pill px-3 shadow-sm">
+                            <i class="bi bi-cloud-upload me-1"></i> Upload to Project
+                        </button>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Navigation Tabs -->
+            <div class="px-4 pt-3 bg-body-tertiary border-bottom">
+                <ul class="nav nav-tabs border-0" id="projectModalTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active fw-medium" id="tab-insights" data-bs-toggle="tab" data-bs-target="#pane-insights" type="button" role="tab">
+                            <i class="bi bi-bar-chart-line me-1"></i> Overview & Metrics
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-medium text-primary" id="tab-upload" data-bs-toggle="tab" data-bs-target="#pane-upload" type="button" role="tab">
+                            <i class="bi bi-cloud-arrow-up me-1"></i> Upload Image / Document
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content">
+                <!-- Tab 1: Overview & Metrics -->
+                <div class="tab-pane fade show active" id="pane-insights" role="tabpanel">
+                    <div class="modal-body p-4" id="projectModalBody">
+                        <div class="text-center py-5 text-body-secondary">
+                            <span class="spinner-border spinner-border-sm me-2"></span>Loading project breakdown...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Upload Image Directly to Project -->
+                <div class="tab-pane fade" id="pane-upload" role="tabpanel">
+                    <div class="modal-body p-4">
+                        <form id="projectModalUploadForm">
+                            <!-- Project Name Option (Mandatory) -->
+                            <div class="card border border-primary bg-primary-subtle bg-opacity-10 mb-3 shadow-sm rounded-3">
+                                <div class="card-body p-3">
+                                    <label for="modalProjectNameInput" class="form-label fw-semibold text-primary d-flex align-items-center justify-content-between mb-1">
+                                        <span class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-folder2-open fs-5"></i>
+                                            <span>Project Name <span class="text-danger">*</span></span>
+                                        </span>
+                                        <span class="badge text-bg-primary">Mandatory Parameter</span>
+                                    </label>
+                                    <input type="text" class="form-control form-control-lg bg-body rounded-3 border-primary shadow-sm fs-6" id="modalProjectNameInput" name="project_name" placeholder="e.g. EmployeePortal, VendorBillsApp" required>
+                                    <div class="form-text mt-1 small text-body-secondary">This project name will tag all OCR analytics and document records.</div>
+                                </div>
+                            </div>
+
+                            <!-- Document Format / Category Selector -->
+                            <div class="mb-3">
+                                <label for="modalDocTypeSelect" class="form-label fw-semibold text-body-secondary small mb-1">
+                                    <i class="bi bi-tags me-1 text-primary"></i>Document Type (Optional):
+                                </label>
+                                <select class="form-select" id="modalDocTypeSelect" name="document_type">
+                                    <option value="AUTO" selected>Auto Detect (Vision AI Classification)</option>
+                                    <option value="SPREADSHEET">Spreadsheet / Excel Sheet (SPREADSHEET)</option>
+                                    <option value="INVOICE">Invoice / Bill (INVOICE)</option>
+                                    <option value="PRESCRIPTION">Doctor Prescription (PRESCRIPTION)</option>
+                                    <option value="RESUME">Resume / CV (RESUME)</option>
+                                    <option value="PAN">PAN Card (PAN)</option>
+                                    <option value="AADHAAR">Aadhaar Card (AADHAAR)</option>
+                                    <option value="PASSPORT">Passport (PASSPORT)</option>
+                                    <option value="DRIVING_LICENSE">Driving License (DRIVING_LICENSE)</option>
+                                    <option value="FORM">Hospital / Registration Form (FORM)</option>
+                                    <option value="UNKNOWN">Other Document (UNKNOWN)</option>
+                                </select>
+                            </div>
+
+                            <!-- File Selection Dropzone -->
+                            <div class="drop-zone p-4 text-center border-2 border-dashed rounded-3 bg-body-tertiary mb-3 cursor-pointer" id="modalDropZone" onclick="document.getElementById('modalFileInput').click()">
+                                <i class="bi bi-cloud-arrow-up text-primary fs-1 d-block mb-2"></i>
+                                <span class="fw-medium d-block">Click or Drag & Drop Image / PDF here</span>
+                                <small class="text-body-secondary">Supported: PNG, JPG, JPEG, WEBP, PDF, XLSX, DOCX</small>
+                                <input type="file" id="modalFileInput" name="file" class="d-none" accept=".jpg,.jpeg,.png,.bmp,.tiff,.webp,.pdf,.xlsx,.xls,.csv,.docx,.doc">
+                            </div>
+
+                            <!-- Selected File Banner -->
+                            <div id="modalFileBanner" class="alert alert-primary d-none align-items-center justify-content-between py-2 px-3 mb-3">
+                                <span class="d-flex align-items-center gap-2 small">
+                                    <i class="bi bi-file-earmark-check fs-5"></i>
+                                    <span id="modalFileNameText" class="fw-semibold"></span>
+                                </span>
+                                <button type="button" class="btn-close btn-close-white" id="modalClearFileBtn" style="font-size: 0.75rem;"></button>
+                            </div>
+
+                            <!-- Real-time Progress Bar -->
+                            <div class="d-none mb-3" id="modalProgressWrapper">
+                                <div class="d-flex justify-content-between mb-1 small">
+                                    <span class="text-body-secondary" id="modalProgressText">Uploading image...</span>
+                                    <span class="fw-medium text-primary" id="modalProgressPercent">0%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" id="modalProgressBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2.5 rounded-3 shadow-sm fw-semibold d-flex align-items-center justify-content-center gap-2" id="modalSubmitBtn" disabled>
+                                <i class="bi bi-play-circle-fill"></i>
+                                <span>Upload & Process in Project</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer border-0 p-3 bg-light d-flex justify-content-between">
+                <a href="/upload" id="uploadToProjectExternalBtn" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> Open Full Upload Page
+                </a>
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ static_url('static/js/analytics.js') if static_url is defined else '/static/js/analytics.js' }}"></script>
+<!-- After analytics.js: reuses its analyticsFetch / analyticsHeaders helpers. -->
+<script src="{{ static_url('static/js/api_keys.js') if static_url is defined else '/static/js/api_keys.js' }}"></script>
+{% endblock %}

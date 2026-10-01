@@ -1,0 +1,63 @@
+{
+    "document": "Jaipur-Anshul(Sikar).XLS",
+    "document_type": "SPREADSHEET",
+    "table_type": "EXCEL_SHEET",
+    "physical_line_count": 20,
+    "logical_row_count": 20,
+    "product_row_count": 19,
+    "subtotal_row_count": 0,
+    "total_row_count": 1,
+    "columns": [
+        {
+            "name": "Item Code",
+            "type": "integer",
+            "x_order": 1
+        },
+        {
+            "name": "Item Name",
+            "type": "text",
+            "x_order": 2
+        },
+        {
+            "name": "Pack",
+            "type": "text",
+            "x_order": 3
+        },
+        {
+            "name": "Opening",
+            "type": "decimal",
+            "x_order": 4
+        },
+        {
+            "name": "Receipt",
+            "type": "decimal",
+            "x_order": 5
+        },
+        {
+            "name": "Sales",
+            "type": "decimal",
+            "x_order": 6
+        },
+        {
+            "name": "Closing",
+            "type": "decimal",
+            "x_order": 7
+        },
+        {
+            "name": "Rate",
+            "type": "decimal",
+            "x_order": 8
+        },
+        {
+            "name": "Stock Value",
+            "type": "decimal",
+            "x_order": 9
+        },
+        {
+            "name": "Sales Value",
+            "type": "decimal",
+            "x_order": 10
+        }
+    ],
+    "rows": []
+}

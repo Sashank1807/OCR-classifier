@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}OCR History & Search | {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <div>
+            <h3 class="fw-bold mb-1">OCR Document History & Search</h3>
+            <p class="text-body-secondary mb-0">Search, filter, export, or manage previously processed document records.</p>
+        </div>
+        <a href="/upload" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm">
+            <i class="bi bi-cloud-arrow-up-fill"></i> Upload New Document
+        </a>
+    </div>
+</div>
+
+<!-- Search & Filter Controls -->
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+    <div class="card-body p-3">
+        <form id="historySearchForm" class="row g-3 align-items-center">
+            <div class="col-md-5">
+                <div class="input-group">
+                    <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search text-body-secondary"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0" id="searchQuery" placeholder="Full-text search by keyword, text, or filename...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" id="filterCategory">
+                    <option value="All">All Categories</option>
+                    <option value="Visiting Card">Visiting Card</option>
+                    <option value="Prescription">Prescription</option>
+                    <option value="Invoice">Invoice</option>
+                    <option value="Pamphlet">Pamphlet</option>
+                    <option value="Certificate">Certificate</option>
+                    <option value="Receipt">Receipt</option>
+                    <option value="Passport">Passport</option>
+                    <option value="Driving License">Driving License</option>
+                    <option value="Report">Report</option>
+                    <option value="Generic">Generic</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select" id="filterLanguage">
+                    <option value="All">All Languages</option>
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Telugu">Telugu</option>
+                    <option value="Tamil">Tamil</option>
+                    <option value="Kannada">Kannada</option>
+                    <option value="Malayalam">Malayalam</option>
+                    <option value="Marathi">Marathi</option>
+                    <option value="Gujarati">Gujarati</option>
+                    <option value="Punjabi">Punjabi</option>
+                    <option value="Mixed Language">Mixed Language</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel me-1"></i> Filter</button>
+                <button type="button" class="btn btn-outline-secondary" id="resetFilterBtn"><i class="bi bi-arrow-counterclockwise"></i></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Records Data Table -->
+<div class="card border-0 shadow-sm rounded-3">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="historyTable">
+                <thead class="table-light border-bottom">
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Filename</th>
+                        <th>Document Type</th>
+                        <th>Language</th>
+                        <th>Type Mode</th>
+                        <th>Pages</th>
+                        <th>Time</th>
+                        <th>Uploaded</th>
+                        <th class="pe-4 text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    {% if records %}
+                        {% for r in records %}
+                        <tr id="row-{{ r.id }}">
+                            <td class="ps-4 text-body-secondary small">#{{ r.id }}</td>
+                            <td class="fw-medium text-truncate" style="max-width: 200px;" title="{{ r.original_filename }}">
+                                <i class="bi bi-file-earmark-text me-2 text-primary"></i>{{ r.original_filename }}
+                            </td>
+                            <td><span class="badge text-bg-primary-subtle text-primary border border-primary-subtle">{{ r.document_type }}</span></td>
+                            <td><span class="badge text-bg-secondary-subtle text-secondary">{{ r.language }}</span></td>
+                            <td>
+                                {% if r.has_handwriting %}
+                                    <span class="badge text-bg-warning-subtle text-warning border border-warning-subtle">Handwritten</span>
+                                {% else %}
+                                    <span class="badge text-bg-info-subtle text-info border border-info-subtle">Printed</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ r.page_count }}</td>
+                            <td class="small text-body-secondary">{{ r.processing_time }}s</td>
+                            <td class="small text-body-secondary">{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td class="pe-4 text-end">
+                                <div class="btn-group btn-group-sm">
+                                    <a href="/result/{{ r.id }}" class="btn btn-outline-primary" title="View Result"><i class="bi bi-eye"></i></a>
+                                    <a href="/api/v1/ocr/export/{{ r.id }}?format=json" class="btn btn-outline-secondary" title="Download JSON"><i class="bi bi-download"></i></a>
+                                    <button class="btn btn-outline-danger delete-doc-btn" data-id="{{ r.id }}" title="Delete Record"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="9" class="text-center py-5 text-body-secondary">No OCR records found. Process your first document to see history.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ static_url('static/js/history.js') if static_url is defined else '/static/js/history.js' }}"></script>
+{% endblock %}

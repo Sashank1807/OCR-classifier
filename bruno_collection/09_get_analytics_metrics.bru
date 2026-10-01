@@ -1,0 +1,21 @@
+meta {
+  name: 09 - Analytics & Token Ledger (all projects)
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/v1/analytics/metrics
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+docs {
+  Aggregate metrics and token usage across every project. Takes no parameters.
+
+  For a single project use request 10.
+}

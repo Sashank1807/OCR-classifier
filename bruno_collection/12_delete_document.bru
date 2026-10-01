@@ -1,0 +1,25 @@
+meta {
+  name: 12 - Delete Document
+  type: http
+  seq: 12
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/history/delete/{{docId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+docs {
+  Permanently removes a document record together with its pages and results.
+  Destructive and not reversible - it is last in the collection deliberately,
+  so a "run all" does not delete the document the earlier requests just made.
+
+  ## Errors
+
+  - 404 document record not found
+}

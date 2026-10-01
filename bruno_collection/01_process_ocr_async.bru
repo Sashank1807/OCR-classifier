@@ -1,0 +1,62 @@
+meta {
+  name: 01 - Submit Document (Async)
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://192.168.173.143:8080/api/v1/ocr/process
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+body:multipart-form {
+  file: @file(D:\OCR_testing\MAY\1000471882.jpg) @contentType(image/jpeg)
+  ~project_name: hr
+  ~user_id: emp_1042
+  ~document_type: AUTO
+  ~async_mode: true
+}
+
+script:post-response {
+  // Capture the request_id so 02 can poll it without hand-editing a URL.
+  if (res.body && res.body.request_id) {
+    bru.setEnvVar("requestId", res.body.request_id);
+  }
+}
+
+docs {
+  Submits one document for asynchronous OCR. Returns immediately with a
+  request_id; poll request 02 for the result.
+  
+  ## Form fields
+  
+  Only `file` is required. Every other field is optional and has a server-side
+  default, so the ones below are marked optional (the leading ~ in Bruno) and
+  can be toggled off to test the defaults.
+  
+  - file           REQUIRED. The document or image. 400 if missing.
+  - project_name   optional, default "DefaultProject". Aliases also accepted:
+                   Project-name, project-name, ProjectName, project, department,
+                   or the X-Project-Name header.
+  - user_id        optional, default "system". Or the X-User-Id header.
+  - document_type  optional, default "AUTO".
+  - async_mode     optional, default FALSE. Must be true here - if omitted you
+                   get the SYNCHRONOUS response instead (see request 03), which
+                   is a completely different shape with no request_id.
+  
+  ## Response
+  
+  success, request_id, status ("PROCESSING"), message.
+  
+  For a batch upload the shape differs - see request 04.
+  
+  ## Errors
+  
+  - 400 no valid file uploaded
+  - 500 processing failed
+}

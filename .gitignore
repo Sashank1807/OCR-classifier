@@ -1,0 +1,79 @@
+# ==============================================================================
+# Git Ignore Rules - AI Document Intelligence & OCR Platform
+# ==============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Environment Variables & Sensitive Credentials (NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# Databases, SQLite, and Backups
+*.db
+*.sqlite
+*.sqlite3
+ocr_database.db
+backups/
+*.sql
+*.sql.gz
+
+# Uploaded User Documents (Contains real user/department data)
+uploads/*
+!uploads/.gitkeep
+
+# Output Artifacts & Debug Preprocessed Images (Generated at runtime)
+outputs/*
+!outputs/.gitkeep
+
+# Application & Server Logs
+logs/*
+!logs/.gitkeep
+*.log
+
+# Heavy External / Historical Datasets
+test_data_june/
+
+# Developer Scratch & Ad-hoc Scripts
+scratch/
+*.tmp
+*.crdownload
+
+# Testing and Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# IDE, Editor, and OS Artifacts
+.vscode/
+.idea/
+.claude/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Packaging and Distribution
+build/
+dist/
+*.egg-info/
+*.zip
+*.tar.gz

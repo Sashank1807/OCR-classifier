@@ -1,0 +1,12 @@
+{
+  "document": "test_data_prod/corpus/pan_real.jpg",
+  "document_type": "PAN",
+  "note": "Real PAN card. Every value below was read off the image by eye. The 5th PAN letter 'E' matches no printed surname word, which is normal - the Income Tax surname field differs from the card.",
+  "fields": {
+    "name": {"expect": "MANGALAPUDI ESWAR KUMAR REDDY", "match": "exact"},
+    "father_name": {"expect": "MANGALAPUDI VEERA VENKATA SUBBRARAMI", "match": "exact"},
+    "dob": {"expect": "30/08/2002", "match": "exact"},
+    "pan_number": {"expect": "AFAPE4843G", "match": "exact"}
+  },
+  "must_not_need_review": true
+}

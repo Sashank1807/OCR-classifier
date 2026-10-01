@@ -1,0 +1,58 @@
+meta {
+  name: 06 - Export Structured JSON (extracted table)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/v1/ocr/export/{{docId}}?format=json
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+params:query {
+  format: json
+}
+
+docs {
+  The extracted table as a downloadable export file.
+
+  Requests 02 and 05 now carry structured_data directly, so this is no longer
+  the only way to reach the table - reach for it when you want the export file
+  itself, or one of the other formats below.
+
+  ## Response
+
+  filename, document_type, project_name, markdown, and structured_data.
+
+  For a stock statement, structured_data.fields carries distributor_name,
+  company_name, statement_period, summary_totals, columns, rows, and items -
+  where each item holds item_code, product_name, pack, batch, expiry, rate,
+  opening_qty, receipt_qty, issue_qty, closing_qty, calculated_closing_qty,
+  discrepancy and validation_status.
+
+  Items carry no raw_cells: it was a byte-for-byte copy of the matching entry
+  in `rows`, so every cell crossed the wire twice. Read `rows`, which is
+  positionally aligned with `columns`.
+
+  ## format values
+
+  - json  application/json, the shape above (markdown + structured JSON)
+  - txt   text/plain, structured JSON block then plain text (server default)
+  - md    same as txt
+  - csv   text/csv, one summary row plus the structured fields
+
+  ## Note for integrators
+
+  The response is sent as a file download - it carries a
+  Content-Disposition: attachment header - so some HTTP clients will save it
+  rather than hand you the body. The bytes are ordinary JSON either way.
+
+  ## Errors
+
+  - 404 document not found, or results missing for that document
+}
